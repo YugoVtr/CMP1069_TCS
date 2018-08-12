@@ -6,13 +6,11 @@ import javax.swing.JFrame;
 
 public class Window {
 
-	protected JFrame frame;
-
-	protected void display(String position) {
+	public static void display(JFrame frame, String position) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screen_height = (int) screenSize.getHeight();
-		int frame_width = (int) this.frame.getWidth();
-		int x = frame_width + (int) (frame_width * 0.3);
+		int frame_width = (int) frame.getWidth();
+		int x = frame_width + (int) (frame_width * 0.2);
 		int y = screen_height / 4;
 		
 		switch (position) {
@@ -28,7 +26,7 @@ public class Window {
 			x *= 1;
 			break;
 		}
-		this.frame.setLocation(x, y);
+		frame.setLocation(x, y);
 	}
 
 }

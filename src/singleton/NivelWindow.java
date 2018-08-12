@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 public class NivelWindow extends Window {
 
+	private JFrame frame;
 	private Caldeira caldeira = Caldeira.getInstancia();
 
 	/**
@@ -30,7 +31,7 @@ public class NivelWindow extends Window {
 	 */
 	public NivelWindow() {
 		initialize();
-		display("right"); 
+		Window.display(this.frame,"right"); 
 	}
 
 	/**

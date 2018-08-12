@@ -5,8 +5,9 @@ import singleton.Window;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
-public class TemperaturaWindow extends Window {
+public class TemperaturaWindow {
 
+	private JFrame frame;
 	private Caldeira caldeira = Caldeira.getInstancia();
 
 	/**
@@ -31,7 +32,7 @@ public class TemperaturaWindow extends Window {
 	 */
 	public TemperaturaWindow() {
 		initialize();
-		display("left"); 
+		Window.display(this.frame,"left"); 
 	}
 
 	/**

@@ -4,10 +4,17 @@ import singleton.Caldeira;
 import singleton.Window;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import java.awt.GridLayout;
+import javax.swing.JTable;
 
-public class CaldeiraWindow extends Window {
+public class CaldeiraWindow {
 
+	private JFrame frame;
 	private Caldeira caldeira = Caldeira.getInstancia();
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -30,7 +37,15 @@ public class CaldeiraWindow extends Window {
 	 */
 	public CaldeiraWindow() {
 		initialize();
-		display("center"); 
+		Window.display(this.frame,"center");
+		
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		table = new JTable();
+		panel.add(table);
+		this.caldeira.iniciar(100, 0, 10, 5);
 	}
 
 	/**
