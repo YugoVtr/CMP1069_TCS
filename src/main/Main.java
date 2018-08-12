@@ -1,11 +1,20 @@
 package main;
-import singleton.Caldeira;
+import singleton.CaldeiraWindow; 
+import singleton.NivelWindow;
+import singleton.TemperaturaWindow;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Caldeira caldeira = Caldeira.getInstancia();
-		System.out.print(caldeira.toString());
+		try {
+			
+			CaldeiraWindow.main(args);
+			NivelWindow.main(args);
+			TemperaturaWindow.main(args); 
+			
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+		}
 	}
 
 }
