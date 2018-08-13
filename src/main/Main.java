@@ -1,20 +1,15 @@
 package main;
-import singleton.CaldeiraWindow; 
-import singleton.NivelWindow;
-import singleton.TemperaturaWindow;
+
+import singleton.CaldeiraWindow;
 
 public class Main {
 
-	public static void main(String[] args) {
-		try {
-			
-			CaldeiraWindow.main(args);
-			NivelWindow.main(args);
-			TemperaturaWindow.main(args); 
-			
-		} catch (Exception e) {
-			System.out.print(e.getMessage());
-		}
-	}
+    public static void main(String[] args) {
+        try {
+            CaldeiraWindow.main(args);
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
 
 }
