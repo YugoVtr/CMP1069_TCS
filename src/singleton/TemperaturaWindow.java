@@ -1,5 +1,8 @@
 package singleton;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author Yugo
  */
@@ -26,8 +29,9 @@ public class TemperaturaWindow extends javax.swing.JFrame {
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
         this.jTable_Info.setRowHeight(50);
+        WindowHelper.addTable(this.jTable_Info);
     }
-    
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,8 +43,10 @@ public class TemperaturaWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Info = new javax.swing.JTable();
+        jSlider_Temperatura_Fonte_Calor = new javax.swing.JSlider();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Temperatura");
 
         jTable_Info.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -62,25 +68,42 @@ public class TemperaturaWindow extends javax.swing.JFrame {
         jTable_Info.setToolTipText("");
         jScrollPane1.setViewportView(jTable_Info);
 
+        jSlider_Temperatura_Fonte_Calor.setMajorTickSpacing(10);
+        jSlider_Temperatura_Fonte_Calor.setPaintLabels(true);
+        jSlider_Temperatura_Fonte_Calor.setToolTipText("Temperatura na fonte de calor");
+        jSlider_Temperatura_Fonte_Calor.setName(""); // NOI18N
+        jSlider_Temperatura_Fonte_Calor.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider_Temperatura_Fonte_CalorStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSlider_Temperatura_Fonte_Calor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(jSlider_Temperatura_Fonte_Calor, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jSlider_Temperatura_Fonte_CalorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider_Temperatura_Fonte_CalorStateChanged
+        this.caldeira.alterarTemperaturaFonteCalor(jSlider_Temperatura_Fonte_Calor.getValue());
+    }//GEN-LAST:event_jSlider_Temperatura_Fonte_CalorStateChanged
 
     /**
      * @param args the command line arguments
@@ -119,6 +142,7 @@ public class TemperaturaWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSlider jSlider_Temperatura_Fonte_Calor;
     private javax.swing.JTable jTable_Info;
     // End of variables declaration//GEN-END:variables
 }

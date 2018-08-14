@@ -1,5 +1,8 @@
 package singleton;
 
+import java.lang.Math;
+import java.util.Timer;
+import java.util.TimerTask;
 /**
  * @author Yugo
  */
@@ -26,6 +29,7 @@ public class NivelWindow extends javax.swing.JFrame {
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
         this.jTable_Info.setRowHeight(50);
+        WindowHelper.addTable(this.jTable_Info);
     }
 
     /**
@@ -39,8 +43,10 @@ public class NivelWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Info = new javax.swing.JTable();
+        jButton_AddAgua = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Nivel");
 
         jTable_Info.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -62,25 +68,44 @@ public class NivelWindow extends javax.swing.JFrame {
         jTable_Info.setToolTipText("");
         jScrollPane1.setViewportView(jTable_Info);
 
+        jButton_AddAgua.setText("Adicionar Nivel");
+        jButton_AddAgua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_AddAguaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton_AddAgua)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton_AddAgua)
+                .addGap(122, 122, 122))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_AddAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AddAguaActionPerformed
+        Caldeira cald = this.caldeira;
+        cald.adicionalNivel(1);
+        
+        //Simular a queda de temperatura ao adicionar agua
+        float diff = Math.abs(cald.getTemperaturaCorrente() - cald.getNivelCorrente()) / 10;
+        this.caldeira.setTemperaturaCorrente(cald.getTemperaturaCorrente() - diff);
+    }//GEN-LAST:event_jButton_AddAguaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -118,6 +143,7 @@ public class NivelWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_AddAgua;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Info;
     // End of variables declaration//GEN-END:variables

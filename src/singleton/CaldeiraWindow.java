@@ -1,5 +1,7 @@
 package singleton;
 
+import java.util.Timer;
+import java.util.TimerTask;
 /**
  * @author Yugo
  */
@@ -11,7 +13,7 @@ public class CaldeiraWindow extends javax.swing.JFrame {
      * Creates new form CaldeiraWindow
      */
     public CaldeiraWindow() {
-        this.caldeira.iniciar(100, 50, 10, 5);
+        this.caldeira.iniciar(100, 50, 50, 25);
         initComponents();
         init();
     }
@@ -27,6 +29,7 @@ public class CaldeiraWindow extends javax.swing.JFrame {
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
         this.jTable_Info.setRowHeight(50);
+        WindowHelper.addTable(this.jTable_Info);
     }
     
     /**
@@ -44,6 +47,7 @@ public class CaldeiraWindow extends javax.swing.JFrame {
         jButton_Controle_Nivel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Caldeira");
 
         jTable_Info.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -66,11 +70,6 @@ public class CaldeiraWindow extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable_Info);
 
         jButton_Controle_Temp.setText("Controle de Temperatura");
-        jButton_Controle_Temp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton_Controle_TempMouseClicked(evt);
-            }
-        });
         jButton_Controle_Temp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_Controle_TempActionPerformed(evt);
@@ -78,11 +77,6 @@ public class CaldeiraWindow extends javax.swing.JFrame {
         });
 
         jButton_Controle_Nivel.setText("Controle de Nivel");
-        jButton_Controle_Nivel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton_Controle_NivelMouseClicked(evt);
-            }
-        });
         jButton_Controle_Nivel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_Controle_NivelActionPerformed(evt);
@@ -93,48 +87,35 @@ public class CaldeiraWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jButton_Controle_Temp)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_Controle_Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addComponent(jButton_Controle_Nivel))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_Controle_Temp)
                     .addComponent(jButton_Controle_Nivel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_Controle_TempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Controle_TempActionPerformed
-        // TODO add your handling code here:
+        TemperaturaWindow.main(null);
+        jButton_Controle_Temp.setEnabled(false);
     }//GEN-LAST:event_jButton_Controle_TempActionPerformed
 
     private void jButton_Controle_NivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Controle_NivelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_Controle_NivelActionPerformed
-
-    private void jButton_Controle_TempMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_Controle_TempMouseClicked
-        TemperaturaWindow.main(null);
-        jButton_Controle_Temp.setEnabled(false);
-    }//GEN-LAST:event_jButton_Controle_TempMouseClicked
-
-    private void jButton_Controle_NivelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_Controle_NivelMouseClicked
         NivelWindow.main(null);
         jButton_Controle_Nivel.setEnabled(false);
-    }//GEN-LAST:event_jButton_Controle_NivelMouseClicked
+    }//GEN-LAST:event_jButton_Controle_NivelActionPerformed
 
     /**
      * @param args the command line arguments

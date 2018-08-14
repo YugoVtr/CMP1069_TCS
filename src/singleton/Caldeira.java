@@ -10,6 +10,7 @@ public class Caldeira {
     private float nivelMin = 0;
     private float temperaturaCorrente = 0;
     private float nivelCorrente = 0;
+    private float temperaturaFonteCalor = 0; 
 
     // Methods
     private Caldeira() {
@@ -27,6 +28,17 @@ public class Caldeira {
         temperaturaMin = tMin;
         nivelMax = nMax;
         nivelMin = nMin;
+        temperaturaCorrente = (temperaturaMax + temperaturaMin) / 2;
+        temperaturaFonteCalor = (temperaturaMax + temperaturaMin) / 2;
+        nivelCorrente = (nivelMax + nivelMin) / 2;
+    }
+    
+    public void alterarTemperaturaFonteCalor(float novaTemperatura) {
+        this.temperaturaFonteCalor = novaTemperatura;
+    }
+    
+    public void adicionalNivel(float quantidade){
+        this.nivelCorrente += quantidade;
     }
 
     @Override
@@ -58,5 +70,17 @@ public class Caldeira {
 
     public float getNivelCorrente() {
         return nivelCorrente;
+    }
+    
+    public float getTemperaturaFonteCalor() {
+        return temperaturaFonteCalor;
+    }
+    
+    public void setTemperaturaCorrente(float temperaturaCorrente) {
+        this.temperaturaCorrente = temperaturaCorrente;
+    }
+
+    public void setNivelCorrente(float nivelCorrente) {
+        this.nivelCorrente = nivelCorrente;
     }
 }
