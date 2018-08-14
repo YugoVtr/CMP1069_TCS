@@ -18,11 +18,9 @@ public class CaldeiraWindow extends javax.swing.JFrame {
 
     private void init() {
         WindowHelper.display(this,"center");
-        this.jTable_Info.getModel().setValueAt("Temperatura",0,0);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMax(),0,1);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMin(),0,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaCorrente(),0,3);
-        this.jTable_Info.getModel().setValueAt("Nivel de Agua",1,0);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMax(),1,1);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
@@ -49,8 +47,8 @@ public class CaldeiraWindow extends javax.swing.JFrame {
 
         jTable_Info.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null}
+                {"Temperatura", null, null, null},
+                {"Nivel", null, null, null}
             },
             new String [] {
                 " ", "Maximo", "Minimo", "Atual"

@@ -14,7 +14,7 @@ public class Main {
             int SEC = 1000;
             TimerTask tasknew = new WindowHelper();
             Timer timer = new Timer();
-            timer.schedule(tasknew, 4*SEC, 4*SEC);
+            timer.schedule(tasknew, SEC, SEC);
             
             CaldeiraWindow.main(args);
         } catch (Exception e) {

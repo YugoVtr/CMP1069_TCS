@@ -16,11 +16,9 @@ public class NivelWindow extends javax.swing.JFrame {
     
     private void init() {
         WindowHelper.display(this,"right");
-        this.jTable_Info.getModel().setValueAt("Temperatura",0,0);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMax(),0,1);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMin(),0,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaCorrente(),0,3);
-        this.jTable_Info.getModel().setValueAt("Nivel de Agua",1,0);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMax(),1,1);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
@@ -40,14 +38,15 @@ public class NivelWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Info = new javax.swing.JTable();
         jButton_AddAgua = new javax.swing.JButton();
+        jSlider_Quantidade_Agua = new javax.swing.JSlider();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nivel");
 
         jTable_Info.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null}
+                {"Temperatura", null, null, null},
+                {"Nivel", null, null, null}
             },
             new String [] {
                 " ", "Maximo", "Minimo", "Atual"
@@ -71,6 +70,13 @@ public class NivelWindow extends javax.swing.JFrame {
             }
         });
 
+        jSlider_Quantidade_Agua.setMajorTickSpacing(2);
+        jSlider_Quantidade_Agua.setMaximum(10);
+        jSlider_Quantidade_Agua.setMinorTickSpacing(2);
+        jSlider_Quantidade_Agua.setPaintLabels(true);
+        jSlider_Quantidade_Agua.setPaintTicks(true);
+        jSlider_Quantidade_Agua.setValue(5);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,17 +84,23 @@ public class NivelWindow extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton_AddAgua)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton_AddAgua)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSlider_Quantidade_Agua, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton_AddAgua)
-                .addGap(122, 122, 122))
+                .addGap(18, 18, 18)
+                .addComponent(jSlider_Quantidade_Agua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78))
         );
 
         pack();
@@ -96,10 +108,10 @@ public class NivelWindow extends javax.swing.JFrame {
 
     private void jButton_AddAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AddAguaActionPerformed
         Caldeira cald = this.caldeira;
-        cald.adicionalNivel(1);
+        cald.adicionalNivel(this.jSlider_Quantidade_Agua.getValue());
         
         //Simular a queda de temperatura ao adicionar agua
-        float diff = Math.abs(cald.getTemperaturaCorrente() - cald.getNivelCorrente()) / 10;
+        float diff = Math.abs(cald.getTemperaturaCorrente() - cald.getNivelCorrente()) * (float)(0.2);
         this.caldeira.setTemperaturaCorrente(cald.getTemperaturaCorrente() - diff);
     }//GEN-LAST:event_jButton_AddAguaActionPerformed
 
@@ -141,6 +153,7 @@ public class NivelWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_AddAgua;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSlider jSlider_Quantidade_Agua;
     private javax.swing.JTable jTable_Info;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,11 +17,9 @@ public class TemperaturaWindow extends javax.swing.JFrame {
 
     private void init() {
         WindowHelper.display(this,"left");
-        this.jTable_Info.getModel().setValueAt("Temperatura",0,0);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMax(),0,1);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMin(),0,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaCorrente(),0,3);
-        this.jTable_Info.getModel().setValueAt("Nivel de Agua",1,0);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMax(),1,1);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
@@ -47,8 +45,8 @@ public class TemperaturaWindow extends javax.swing.JFrame {
 
         jTable_Info.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null}
+                {"Temperatura", null, null, null},
+                {"Nivel", null, null, null}
             },
             new String [] {
                 " ", "Maximo", "Minimo", "Atual"
@@ -69,6 +67,7 @@ public class TemperaturaWindow extends javax.swing.JFrame {
         jSlider_Temperatura_Fonte_Calor.setMaximum(300);
         jSlider_Temperatura_Fonte_Calor.setMinorTickSpacing(50);
         jSlider_Temperatura_Fonte_Calor.setPaintLabels(true);
+        jSlider_Temperatura_Fonte_Calor.setPaintTicks(true);
         jSlider_Temperatura_Fonte_Calor.setToolTipText("Temperatura na fonte de calor");
         jSlider_Temperatura_Fonte_Calor.setValue(150);
         jSlider_Temperatura_Fonte_Calor.setName(""); // NOI18N

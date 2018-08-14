@@ -1,5 +1,6 @@
 package singleton;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -30,22 +31,20 @@ public class WindowHelper extends TimerTask {
     
     public static void display(JFrame frame, String position) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screen_height = (int) screenSize.getHeight();
         int frame_width = (int) frame.getWidth();
-        int x = frame_width + (int) (frame_width * 0.2);
-        int y = screen_height / 4;
-
+        int x = (int) ((screenSize.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((screenSize.getHeight() - frame.getHeight()) / 2);
+        
         switch (position) {
         case "left":
                 x *= 0;
                 break;
 
         case "right":
-                x *= 2;
+                x = (int) screenSize.getWidth() - frame_width;
                 break;
 
         default:
-                x *= 1;
                 break;
         }
         frame.setLocation(x, y);
@@ -57,11 +56,11 @@ public class WindowHelper extends TimerTask {
         
         //Simula Temperatura
         float diffTemp = caldeira.getTemperaturaFonteCalor() - caldeira.getTemperaturaCorrente();
-        float newTemp = diffTemp / 10;
+        float newTemp = diffTemp * (float)(0.02);
         caldeira.setTemperaturaCorrente(caldeira.getTemperaturaCorrente() + newTemp);
         
         //Simula nivel
-        float taxa = caldeira.getTemperaturaCorrente() / 100;
+        float taxa = caldeira.getTemperaturaCorrente() * (float)(0.002);
         float novoNivel = caldeira.getNivelCorrente();
         novoNivel -= taxa;
         if (novoNivel > 0) {
@@ -69,12 +68,12 @@ public class WindowHelper extends TimerTask {
         }
         
         //Atualiza as informacoes nas janelas
-        for (javax.swing.JTable t : WindowHelper.table) {
+        WindowHelper.table.forEach((t) -> {
             DecimalFormat df = new DecimalFormat("0.00");
             float temp = caldeira.getTemperaturaCorrente();
             float nvl = caldeira.getNivelCorrente();
             t.getModel().setValueAt(df.format(temp),0,3);
             t.getModel().setValueAt(df.format(nvl),1,3);
-        }
+        });
     }
 }
