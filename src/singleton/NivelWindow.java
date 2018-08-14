@@ -1,8 +1,4 @@
 package singleton;
-
-import java.lang.Math;
-import java.util.Timer;
-import java.util.TimerTask;
 /**
  * @author Yugo
  */

@@ -1,7 +1,5 @@
 package singleton;
 
-import java.util.Timer;
-import java.util.TimerTask;
 /**
  * @author Yugo
  */
@@ -13,7 +11,7 @@ public class CaldeiraWindow extends javax.swing.JFrame {
      * Creates new form CaldeiraWindow
      */
     public CaldeiraWindow() {
-        this.caldeira.iniciar(100, 50, 50, 25);
+        this.caldeira.iniciar(200, 100, 50, 25);
         initComponents();
         init();
     }

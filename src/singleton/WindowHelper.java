@@ -7,7 +7,6 @@ import java.util.TimerTask;
 import java.util.List;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
-import java.awt.Color;
 
 public class WindowHelper extends TimerTask {
     
@@ -65,8 +64,7 @@ public class WindowHelper extends TimerTask {
         float taxa = caldeira.getTemperaturaCorrente() / 100;
         float novoNivel = caldeira.getNivelCorrente();
         novoNivel -= taxa;
-        System.out.println(taxa);
-        if(novoNivel > 0) {
+        if (novoNivel > 0) {
             caldeira.setNivelCorrente(novoNivel);
         }
         

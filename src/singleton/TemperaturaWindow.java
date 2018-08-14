@@ -1,8 +1,5 @@
 package singleton;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * @author Yugo
  */
@@ -68,9 +65,12 @@ public class TemperaturaWindow extends javax.swing.JFrame {
         jTable_Info.setToolTipText("");
         jScrollPane1.setViewportView(jTable_Info);
 
-        jSlider_Temperatura_Fonte_Calor.setMajorTickSpacing(10);
+        jSlider_Temperatura_Fonte_Calor.setMajorTickSpacing(50);
+        jSlider_Temperatura_Fonte_Calor.setMaximum(300);
+        jSlider_Temperatura_Fonte_Calor.setMinorTickSpacing(50);
         jSlider_Temperatura_Fonte_Calor.setPaintLabels(true);
         jSlider_Temperatura_Fonte_Calor.setToolTipText("Temperatura na fonte de calor");
+        jSlider_Temperatura_Fonte_Calor.setValue(150);
         jSlider_Temperatura_Fonte_Calor.setName(""); // NOI18N
         jSlider_Temperatura_Fonte_Calor.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
