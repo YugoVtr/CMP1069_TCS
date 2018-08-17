@@ -17,13 +17,13 @@ public class Persistencia {
     public Persistencia() { 
     }
     
-    public Iterator<Professor> load() throws IOException{ 
+    public Iterator<Professor> load(String path) throws IOException{ 
         List<Professor> objetos;
        
         objetos = new ArrayList<>();
         
-        String url_1 = "C:\\Users\\Yugo\\Documents\\_Yugo\\Main\\Projetos\\GitHub\\Public\\Java\\workspace\\CMP1069_TCS\\src\\iterator\\Professores.csv"; 
-        String url_2 = "C:\\Users\\Yugo\\Documents\\_Yugo\\Main\\Projetos\\GitHub\\Public\\Java\\workspace\\CMP1069_TCS\\src\\iterator\\DadosGerais.csv";
+        String url_1 = path + "\\Professores.csv"; 
+        String url_2 = path + "\\DadosGerais.csv";
         
         Map<String,String> professores = readFromFile(url_1); 
         Map<String,String> dadosGerais = readFromFile(url_2); 

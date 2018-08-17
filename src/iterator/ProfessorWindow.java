@@ -4,23 +4,31 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Iterator;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Yugo
  */
-public class ProfessorWindow extends javax.swing.JFrame {
-    
-    private Persistencia crud = new Persistencia(); 
+public final class ProfessorWindow extends javax.swing.JFrame {
+
+    private final Persistencia crud = new Persistencia();
 
     /**
      * Creates new form ProfessorWindow
      */
     public ProfessorWindow() {
         initComponents();
-        try { 
-            for (Iterator<Professor> conteudo = this.crud.load(); conteudo.hasNext(); ) {
-                Professor current = conteudo.next(); 
+        JFileChooser chooser = new JFileChooser();
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            popularTabela( chooser.getCurrentDirectory().toString());
+        }
+    }
+
+    public void popularTabela(String path) {
+        try {
+            for (Iterator<Professor> conteudo = this.crud.load(path); conteudo.hasNext();) {
+                Professor current = conteudo.next();
                 DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
                 model.addRow(new Object[]{
                     current.getId(),
