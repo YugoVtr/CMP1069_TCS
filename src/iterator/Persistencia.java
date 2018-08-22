@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,8 +23,8 @@ public class Persistencia {
        
         objetos = new ArrayList<>();
         
-        String url_1 = path + "\\Professores.csv"; 
-        String url_2 = path + "\\DadosGerais.csv";
+        String url_1 = path + File.separator + "Professores.csv"; 
+        String url_2 = path + File.separator + "DadosGerais.csv";
         
         Map<String,String> professores = readFromFile(url_1); 
         Map<String,String> dadosGerais = readFromFile(url_2); 

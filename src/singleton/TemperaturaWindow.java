@@ -1,9 +1,14 @@
 package singleton;
 
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.JTable;
+import java.text.DecimalFormat;
+
 /**
  * @author Yugo
  */
-public class TemperaturaWindow extends javax.swing.JFrame {
+public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
 
     private Caldeira caldeira = Caldeira.getInstancia();
     
@@ -16,6 +21,7 @@ public class TemperaturaWindow extends javax.swing.JFrame {
     }
 
     private void init() {
+        caldeira.addObserver(this);
         WindowHelper.display(this,"left");
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMax(),0,1);
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMin(),0,2);
@@ -24,7 +30,20 @@ public class TemperaturaWindow extends javax.swing.JFrame {
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
         this.jTable_Info.setRowHeight(50);
-        WindowHelper.addTable(this.jTable_Info);
+    }
+    
+    private void updateTable() { 
+        JTable t = this.jTable_Info; 
+        DecimalFormat df = new DecimalFormat("0.00");
+        float temp = caldeira.getTemperaturaCorrente();
+        float nvl = caldeira.getNivelCorrente();
+        t.getModel().setValueAt(df.format(temp),0,3);
+        t.getModel().setValueAt(df.format(nvl),1,3);
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        this.updateTable();
     }
         
     /**

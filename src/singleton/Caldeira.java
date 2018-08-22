@@ -1,6 +1,10 @@
 package singleton;
 
-public class Caldeira {
+import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Caldeira extends Observable {
 
     // Attributes
     private static Caldeira instancia;
@@ -15,7 +19,7 @@ public class Caldeira {
     // Methods
     private Caldeira() {
     }
-
+    
     public static Caldeira getInstancia() {
         if (instancia == null) {
             instancia = new Caldeira();
@@ -31,22 +35,33 @@ public class Caldeira {
         temperaturaCorrente = (temperaturaMax + temperaturaMin) / 2;
         temperaturaFonteCalor = (temperaturaMax + temperaturaMin) / 2;
         nivelCorrente = (nivelMax + nivelMin) / 2;
+        this.simulacao();
     }
     
     public void alterarTemperaturaFonteCalor(float novaTemperatura) {
         this.temperaturaFonteCalor = novaTemperatura;
+        setChanged();
+        notifyObservers();
     }
     
     public void adicionalNivel(float quantidade){
         this.nivelCorrente += quantidade;
+        setChanged();
+        notifyObservers();
     }
 
-    @Override
-    public String toString() {
-        return "Caldeira [getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-                + "]";
+    public void setTemperaturaCorrente(float temperaturaCorrente) {
+        this.temperaturaCorrente = temperaturaCorrente;
+        setChanged();
+        notifyObservers();
     }
 
+    public void setNivelCorrente(float nivelCorrente) {
+        this.nivelCorrente = nivelCorrente;
+        setChanged();
+        notifyObservers();
+    }
+    
     // Getters and Setters 
     public float getTemperaturaMax() {
         return temperaturaMax;
@@ -76,11 +91,35 @@ public class Caldeira {
         return temperaturaFonteCalor;
     }
     
-    public void setTemperaturaCorrente(float temperaturaCorrente) {
-        this.temperaturaCorrente = temperaturaCorrente;
-    }
+    private void simulacao() {
+        //Rotina para atualizar as informacoes na tela
+        int SEC = 1000;
+        TimerTask tasknew = new TimerTask() {
+            @Override
+            public void run() {
+                Caldeira caldeira = Caldeira.getInstancia();
 
-    public void setNivelCorrente(float nivelCorrente) {
-        this.nivelCorrente = nivelCorrente;
+                //Simula Temperatura
+                float diffTemp = caldeira.getTemperaturaFonteCalor() - caldeira.getTemperaturaCorrente();
+                float newTemp = diffTemp * (float)(0.02);
+                caldeira.setTemperaturaCorrente(caldeira.getTemperaturaCorrente() + newTemp);
+
+                //Simula nivel
+                float taxa = caldeira.getTemperaturaCorrente() * (float)(0.002);
+                float novoNivel = caldeira.getNivelCorrente();
+                novoNivel -= taxa;
+                if (novoNivel > 0) {
+                    caldeira.setNivelCorrente(novoNivel);
+                }
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(tasknew, SEC, SEC);
+    }
+        
+    @Override
+    public String toString() {
+        return "Caldeira [getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+                + "]";
     }
 }
