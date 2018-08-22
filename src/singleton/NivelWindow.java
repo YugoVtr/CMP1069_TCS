@@ -43,7 +43,6 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println(o.toString());
         this.updateTable();
     }
 
