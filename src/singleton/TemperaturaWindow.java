@@ -10,8 +10,8 @@ import java.text.DecimalFormat;
  */
 public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
 
-    private Caldeira caldeira = Caldeira.getInstancia();
-    private Notificacao noticacao = Notificacao.getInstancia();
+    private final Caldeira caldeira = Caldeira.getInstancia();
+    private final Notificacao noticacao = new Notificacao();
     
     /**
      * Creates new form TemperaturaWindow
@@ -37,16 +37,16 @@ public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
     private void checkNotify(){
         String log_error="";
         if (caldeira.getNivelCorrente() < caldeira.getNivelMin()) {
-            log_error += noticacao.getNotify01() + "\n";
+            log_error += noticacao.nivelBaixo()+ "\n";
         }
         if (caldeira.getNivelCorrente() > caldeira.getNivelMax()) {
-            log_error += noticacao.getNotify02() + "\n";
+            log_error += noticacao.nivelAlto()+ "\n";
         }
         if (caldeira.getTemperaturaCorrente() < caldeira.getTemperaturaMin()) {
-            log_error += noticacao.getNotify03() + "\n";
+            log_error += noticacao.temperaturaBaixa()+ "\n";
         }
         if (caldeira.getTemperaturaCorrente() > caldeira.getTemperaturaMax()) {
-            log_error += noticacao.getNotify04() + "\n";
+            log_error += noticacao.temperaturaAlta()+ "\n";
         } 
         this.jTextArea_Notify.setText(log_error);
     }

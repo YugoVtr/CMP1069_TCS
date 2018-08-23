@@ -10,8 +10,8 @@ import java.text.DecimalFormat;
  */
 public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
 
-    private Caldeira caldeira = Caldeira.getInstancia();
-    private Notificacao noticacao = Notificacao.getInstancia();
+    private final Caldeira caldeira = Caldeira.getInstancia();
+    private final Notificacao noticacao = new Notificacao(); 
     
     /**
      * Creates new form CaldeiraWindow
@@ -23,6 +23,9 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
     }
 
     private void init() {
+        TemperaturaWindow.main(null);
+        NivelWindow.main(null);
+        
         caldeira.addObserver(this);
         WindowHelper.display(this,"center");
         this.jTable_Info.getModel().setValueAt(caldeira.getTemperaturaMax(),0,1);
@@ -38,16 +41,17 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
     private void checkNotify(){
         String log_error="";
         if (caldeira.getNivelCorrente() < caldeira.getNivelMin()) {
-            log_error += noticacao.getNotify01() + "\n";
+            log_error += noticacao.nivelBaixo()+ "\n";
         }
         if (caldeira.getNivelCorrente() > caldeira.getNivelMax()) {
-            log_error += noticacao.getNotify02() + "\n";
+            log_error += noticacao.nivelAlto()+ "\n";
         }
         if (caldeira.getTemperaturaCorrente() < caldeira.getTemperaturaMin()) {
-            log_error += noticacao.getNotify03() + "\n";
+            log_error += noticacao.temperaturaBaixa()+ "\n";
         }
         if (caldeira.getTemperaturaCorrente() > caldeira.getTemperaturaMax()) {
-            log_error += noticacao.getNotify04() + "\n";
+            log_error += noticacao.temperaturaAlta()+ "\n";
+            this.jLabel_Icon.setIcon(noticacao.getPoison(jLabel_Icon.getWidth(), jLabel_Icon.getHeight()));
         } 
         this.jTextArea_Notify.setText(log_error);
     }
@@ -78,11 +82,10 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Info = new javax.swing.JTable();
-        jButton_Controle_Temp = new javax.swing.JButton();
-        jButton_Controle_Nivel = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea_Notify = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        jLabel_Icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Caldeira");
@@ -107,20 +110,6 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
         jTable_Info.setToolTipText("");
         jScrollPane1.setViewportView(jTable_Info);
 
-        jButton_Controle_Temp.setText("Controle de Temperatura");
-        jButton_Controle_Temp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_Controle_TempActionPerformed(evt);
-            }
-        });
-
-        jButton_Controle_Nivel.setText("Controle de Nivel");
-        jButton_Controle_Nivel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_Controle_NivelActionPerformed(evt);
-            }
-        });
-
         jTextArea_Notify.setColumns(20);
         jTextArea_Notify.setRows(5);
         jScrollPane2.setViewportView(jTextArea_Notify);
@@ -131,45 +120,36 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jButton_Controle_Temp)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                .addComponent(jButton_Controle_Nivel))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jScrollPane2))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_Controle_Temp)
-                    .addComponent(jButton_Controle_Nivel))
-                .addGap(10, 10, 10)
+                .addGap(39, 39, 39)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel_Icon, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton_Controle_TempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Controle_TempActionPerformed
-        TemperaturaWindow.main(null);
-        jButton_Controle_Temp.setEnabled(false);
-    }//GEN-LAST:event_jButton_Controle_TempActionPerformed
-
-    private void jButton_Controle_NivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Controle_NivelActionPerformed
-        NivelWindow.main(null);
-        jButton_Controle_Nivel.setEnabled(false);
-    }//GEN-LAST:event_jButton_Controle_NivelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,9 +187,8 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton_Controle_Nivel;
-    private javax.swing.JButton jButton_Controle_Temp;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel_Icon;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable_Info;

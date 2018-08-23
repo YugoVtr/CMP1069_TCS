@@ -5,58 +5,74 @@
  */
 package singleton;
 
+import java.awt.Image;
+import java.io.File;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author fernando
  */
+
 public class Notificacao {
-    //atributos
-    private static Notificacao instancia;
-    private String notify01 = "O Nivel de Agua na Caldeira esta baixo!! Procure o RH";
-    private String notify02 = "O Nivel de Agua na Caldeira esta alto!! Procure o RH";
-    private String notify03 = "A Temperatura da Caldeira esta baixa!! Procure o RH";
-    private String notify04 = "Parabéns a Caldeira explodiu!!!! Procure o RH imediatamente!!";
+      
+    public enum Mensagens { 
+        NIVEL_BAIXO("O Nivel de Agua na Caldeira esta BAIXO!! Procure o RH"),
+        NIVEL_ALTO("O Nivel de Agua na Caldeira esta ALTO!! Procure o RH"),
+        TEMPERATURA_BAIXA("A Temperatura da Caldeira esta BAIXA!! Procure o RH"),
+        TEMPERATURA_ALTA("Parabéns a Caldeira explodiu!!!! Procure o RH imediatamente!!");
+        
+        private final String msg; 
+        
+        Mensagens(final String msg) { 
+            this.msg = msg; 
+        }
+        
+        @Override
+        public String toString() {
+            return this.msg;
+        }
+    };
+       
+    private final ImageIcon warning = new ImageIcon("src" + File.separator + "singleton" + File.separator + "warning.png");
+    private final ImageIcon poison = new ImageIcon("src" + File.separator + "singleton" + File.separator + "poison.png");
+
+    public ImageIcon getWarning(int width, int height) {
+        if(width == 0 || height == 0) {
+            return warning; 
+        }
+        Image i = this.warning.getImage();
+        Image nova = i.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(nova);
+    }
     
+    public ImageIcon getPoison(int width, int height) {
+        if(width == 0 || height == 0) {
+            return poison; 
+        }
+        Image i = this.poison.getImage();
+        Image nova = i.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(nova);
+    }
+            
     //metodos
     public Notificacao(){
        
     }
-    public static Notificacao getInstancia(){
-        if(instancia == null){
-            instancia = new Notificacao();
-        }
-        return instancia;
-    }
-
-    public String getNotify01() {
-        return notify01;
-    }
-
-    public void setNotify01(String notify01) {
-        this.notify01 = notify01;
+    
+    public String nivelAlto() { 
+        return Mensagens.NIVEL_ALTO.toString(); 
     }
     
-    public String getNotify02() {
-        return notify02;
+    public String nivelBaixo() { 
+        return Mensagens.NIVEL_BAIXO.toString(); 
     }
-
-    public void setNotify02(String notify02) {
-        this.notify02 = notify02;
+    
+    public String temperaturaAlta() { 
+        return Mensagens.TEMPERATURA_ALTA.toString(); 
     }
-
-    public String getNotify03() {
-        return notify03;
-    }
-
-    public void setNotify03(String notify03) {
-        this.notify03 = notify03;
-    }
-
-    public String getNotify04() {
-        return notify04;
-    }
-
-    public void setNotify04(String notify04) {
-        this.notify04 = notify04;
+ 
+    public String temperaturaBaixa() { 
+        return Mensagens.TEMPERATURA_BAIXA.toString(); 
     }
 }
