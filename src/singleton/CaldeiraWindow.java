@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
 
     private Caldeira caldeira = Caldeira.getInstancia();
+    private Notificacao noticacao = Notificacao.getInstancia();
     
     /**
      * Creates new form CaldeiraWindow
@@ -31,6 +32,24 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
         this.jTable_Info.setRowHeight(50);
+        this.jTextArea_Notify.setEditable(false);
+    }
+    
+    private void checkNotify(){
+        String log_error="";
+        if (caldeira.getNivelCorrente() < caldeira.getNivelMin()) {
+            log_error += noticacao.getNotify01() + "\n";
+        }
+        if (caldeira.getNivelCorrente() > caldeira.getNivelMax()) {
+            log_error += noticacao.getNotify02() + "\n";
+        }
+        if (caldeira.getTemperaturaCorrente() < caldeira.getTemperaturaMin()) {
+            log_error += noticacao.getNotify03() + "\n";
+        }
+        if (caldeira.getTemperaturaCorrente() > caldeira.getTemperaturaMax()) {
+            log_error += noticacao.getNotify04() + "\n";
+        } 
+        this.jTextArea_Notify.setText(log_error);
     }
     
     private void updateTable() { 
@@ -40,6 +59,7 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
         float nvl = caldeira.getNivelCorrente();
         t.getModel().setValueAt(df.format(temp),0,3);
         t.getModel().setValueAt(df.format(nvl),1,3);
+        checkNotify();
     }
     
     @Override
@@ -60,6 +80,9 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
         jTable_Info = new javax.swing.JTable();
         jButton_Controle_Temp = new javax.swing.JButton();
         jButton_Controle_Nivel = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea_Notify = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Caldeira");
@@ -98,6 +121,12 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
             }
         });
 
+        jTextArea_Notify.setColumns(20);
+        jTextArea_Notify.setRows(5);
+        jScrollPane2.setViewportView(jTextArea_Notify);
+
+        jLabel1.setText("Noticações:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,6 +136,12 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
                 .addComponent(jButton_Controle_Temp)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addComponent(jButton_Controle_Nivel))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +151,11 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_Controle_Temp)
                     .addComponent(jButton_Controle_Nivel))
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -170,7 +209,10 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Controle_Nivel;
     private javax.swing.JButton jButton_Controle_Temp;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable_Info;
+    private javax.swing.JTextArea jTextArea_Notify;
     // End of variables declaration//GEN-END:variables
 }

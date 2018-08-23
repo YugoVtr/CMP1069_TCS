@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 public class NivelWindow extends javax.swing.JFrame implements Observer {
 
     private final Caldeira caldeira = Caldeira.getInstancia();
+    private Notificacao noticacao = Notificacao.getInstancia();
     
     /**
      * Creates new form NivelWindow
@@ -30,6 +31,24 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelMin(),1,2);
         this.jTable_Info.getModel().setValueAt(caldeira.getNivelCorrente(),1,3);
         this.jTable_Info.setRowHeight(50);
+        this.jTextArea_Notify.setEditable(false);
+    }
+    
+    private void checkNotify(){
+        String log_error="";
+        if (caldeira.getNivelCorrente() < caldeira.getNivelMin()) {
+            log_error += noticacao.getNotify01() + "\n";
+        }
+        if (caldeira.getNivelCorrente() > caldeira.getNivelMax()) {
+            log_error += noticacao.getNotify02() + "\n";
+        }
+        if (caldeira.getTemperaturaCorrente() < caldeira.getTemperaturaMin()) {
+            log_error += noticacao.getNotify03() + "\n";
+        }
+        if (caldeira.getTemperaturaCorrente() > caldeira.getTemperaturaMax()) {
+            log_error += noticacao.getNotify04() + "\n";
+        } 
+        this.jTextArea_Notify.setText(log_error);
     }
     
     private void updateTable() { 
@@ -39,6 +58,7 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
         float nvl = caldeira.getNivelCorrente();
         t.getModel().setValueAt(df.format(temp),0,3);
         t.getModel().setValueAt(df.format(nvl),1,3);
+        checkNotify();
     }
     
     @Override
@@ -59,6 +79,9 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
         jTable_Info = new javax.swing.JTable();
         jButton_AddAgua = new javax.swing.JButton();
         jSlider_Quantidade_Agua = new javax.swing.JSlider();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea_Notify = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nivel");
@@ -97,30 +120,43 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
         jSlider_Quantidade_Agua.setPaintTicks(true);
         jSlider_Quantidade_Agua.setValue(5);
 
+        jTextArea_Notify.setColumns(20);
+        jTextArea_Notify.setRows(5);
+        jScrollPane2.setViewportView(jTextArea_Notify);
+
+        jLabel1.setText("Noticações:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSlider_Quantidade_Agua, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton_AddAgua)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSlider_Quantidade_Agua, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_AddAgua)
+                            .addComponent(jLabel1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_AddAgua)
                 .addGap(18, 18, 18)
                 .addComponent(jSlider_Quantidade_Agua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -172,8 +208,11 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_AddAgua;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSlider_Quantidade_Agua;
     private javax.swing.JTable jTable_Info;
+    private javax.swing.JTextArea jTextArea_Notify;
     // End of variables declaration//GEN-END:variables
 }
