@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
 
     private final Caldeira caldeira = Caldeira.getInstancia();
-    private final Notificacao noticacao = new Notificacao(); 
+    private final Notificacao notificacao = new Notificacao(); 
     
     /**
      * Creates new form CaldeiraWindow
@@ -37,25 +37,7 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
         this.jTable_Info.setRowHeight(50);
         this.jTextArea_Notify.setEditable(false);
     }
-    
-    private void checkNotify(){
-        String log_error="";
-        if (caldeira.getNivelCorrente() < caldeira.getNivelMin()) {
-            log_error += noticacao.nivelBaixo()+ "\n";
-        }
-        if (caldeira.getNivelCorrente() > caldeira.getNivelMax()) {
-            log_error += noticacao.nivelAlto()+ "\n";
-        }
-        if (caldeira.getTemperaturaCorrente() < caldeira.getTemperaturaMin()) {
-            log_error += noticacao.temperaturaBaixa()+ "\n";
-        }
-        if (caldeira.getTemperaturaCorrente() > caldeira.getTemperaturaMax()) {
-            log_error += noticacao.temperaturaAlta()+ "\n";
-            this.jLabel_Icon.setIcon(noticacao.getPoison(jLabel_Icon.getWidth(), jLabel_Icon.getHeight()));
-        } 
-        this.jTextArea_Notify.setText(log_error);
-    }
-    
+        
     private void updateTable() { 
         JTable t = this.jTable_Info; 
         DecimalFormat df = new DecimalFormat("0.00");
@@ -63,7 +45,7 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
         float nvl = caldeira.getNivelCorrente();
         t.getModel().setValueAt(df.format(temp),0,3);
         t.getModel().setValueAt(df.format(nvl),1,3);
-        checkNotify();
+        this.jTextArea_Notify.setText(notificacao.checkNotify(this.jLabel_Icon));
     }
     
     @Override
@@ -122,30 +104,33 @@ public class CaldeiraWindow extends javax.swing.JFrame implements Observer {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jScrollPane2))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jScrollPane2)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(199, 199, 199))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(214, 214, 214))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel_Icon, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addComponent(jLabel_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))
         );
 
         pack();

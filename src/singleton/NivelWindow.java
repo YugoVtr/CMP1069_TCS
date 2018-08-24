@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 public class NivelWindow extends javax.swing.JFrame implements Observer {
 
     private final Caldeira caldeira = Caldeira.getInstancia();
-    private Notificacao noticacao = new Notificacao(); 
+    private Notificacao notificacao = new Notificacao(); 
     
     /**
      * Creates new form NivelWindow
@@ -33,24 +33,7 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
         this.jTable_Info.setRowHeight(50);
         this.jTextArea_Notify.setEditable(false);
     }
-    
-    private void checkNotify(){
-        String log_error="";
-        if (caldeira.getNivelCorrente() < caldeira.getNivelMin()) {
-            log_error += noticacao.nivelBaixo()+ "\n";
-        }
-        if (caldeira.getNivelCorrente() > caldeira.getNivelMax()) {
-            log_error += noticacao.nivelAlto()+ "\n";
-        }
-        if (caldeira.getTemperaturaCorrente() < caldeira.getTemperaturaMin()) {
-            log_error += noticacao.temperaturaBaixa()+ "\n";
-        }
-        if (caldeira.getTemperaturaCorrente() > caldeira.getTemperaturaMax()) {
-            log_error += noticacao.temperaturaAlta()+ "\n";
-        } 
-        this.jTextArea_Notify.setText(log_error);
-    }
-    
+       
     private void updateTable() { 
         JTable t = this.jTable_Info; 
         DecimalFormat df = new DecimalFormat("0.00");
@@ -58,7 +41,7 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
         float nvl = caldeira.getNivelCorrente();
         t.getModel().setValueAt(df.format(temp),0,3);
         t.getModel().setValueAt(df.format(nvl),1,3);
-        checkNotify();
+        this.jTextArea_Notify.setText(notificacao.checkNotify(this.jLabel_Icon));
     }
     
     @Override
@@ -82,6 +65,7 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea_Notify = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        jLabel_Icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Nivel");
@@ -130,17 +114,20 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSlider_Quantidade_Agua, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jSlider_Quantidade_Agua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_AddAgua)
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(97, 97, 97)
+                                .addComponent(jLabel_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 147, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -152,8 +139,10 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
                 .addComponent(jButton_AddAgua)
                 .addGap(18, 18, 18)
                 .addComponent(jSlider_Quantidade_Agua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -209,6 +198,7 @@ public class NivelWindow extends javax.swing.JFrame implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_AddAgua;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel_Icon;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSlider_Quantidade_Agua;

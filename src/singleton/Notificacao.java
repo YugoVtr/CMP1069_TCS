@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package singleton;
 
 import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -17,8 +13,10 @@ import javax.swing.ImageIcon;
 public class Notificacao {
       
     public enum Mensagens { 
+        NIVEL_CRITICO("O Nivel de Agua está CRITICO"), 
         NIVEL_BAIXO("O Nivel de Agua na Caldeira esta BAIXO!! Procure o RH"),
         NIVEL_ALTO("O Nivel de Agua na Caldeira esta ALTO!! Procure o RH"),
+        TEMPERATURA_CRITICA("A Temperatura da Caldeira esta CRITICA"), 
         TEMPERATURA_BAIXA("A Temperatura da Caldeira esta BAIXA!! Procure o RH"),
         TEMPERATURA_ALTA("Parabéns a Caldeira explodiu!!!! Procure o RH imediatamente!!");
         
@@ -60,19 +58,38 @@ public class Notificacao {
        
     }
     
-    public String nivelAlto() { 
-        return Mensagens.NIVEL_ALTO.toString(); 
+    public String checkNotify(JLabel label){
+        Caldeira c = Caldeira.getInstancia(); 
+        label.setIcon(null);
+        String log_error="";
+        
+        if(c.eNivelCritico()) {
+            label.setIcon(this.getWarning(label.getWidth(), label.getHeight()));
+            log_error +=  Mensagens.NIVEL_CRITICO.toString() + "\n"; 
+        }
+        
+        if(c.eTemperaturaCritica()) { 
+            label.setIcon(this.getWarning(label.getWidth(), label.getHeight()));
+            log_error += Mensagens.TEMPERATURA_CRITICA.toString() + "\n"; 
+        }
+        
+        if (c.estaNivelBaixo()) {
+            log_error += Mensagens.NIVEL_BAIXO.toString() + "\n";
+            label.setIcon(this.getPoison(label.getWidth(), label.getHeight()));
+        }
+        if (c.estaNivelAlto()) {
+            log_error += Mensagens.NIVEL_ALTO.toString() + "\n";
+            label.setIcon(this.getPoison(label.getWidth(), label.getHeight()));
+        }
+        if (c.estaTemperaturaBaixa()) {
+            log_error += Mensagens.TEMPERATURA_BAIXA.toString() + "\n";
+            label.setIcon(this.getPoison(label.getWidth(), label.getHeight()));
+        }
+        if (c.estaNivelAlto()) {
+            log_error += Mensagens.TEMPERATURA_ALTA.toString() + "\n";
+            label.setIcon(this.getPoison(label.getWidth(), label.getHeight()));
+        } 
+        return log_error; 
     }
     
-    public String nivelBaixo() { 
-        return Mensagens.NIVEL_BAIXO.toString(); 
-    }
-    
-    public String temperaturaAlta() { 
-        return Mensagens.TEMPERATURA_ALTA.toString(); 
-    }
- 
-    public String temperaturaBaixa() { 
-        return Mensagens.TEMPERATURA_BAIXA.toString(); 
-    }
 }

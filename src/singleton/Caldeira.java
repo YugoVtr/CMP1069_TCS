@@ -97,7 +97,12 @@ public class Caldeira extends Observable {
         TimerTask tasknew = new TimerTask() {
             @Override
             public void run() {
+                
                 Caldeira caldeira = Caldeira.getInstancia();
+                if(caldeira.estaNivelAlto() || caldeira.estaNivelBaixo() ||
+                   caldeira.estaTemperaturaAlta() || caldeira.estaTemperaturaBaixa()) {
+                    return; 
+                }
 
                 //Simula Temperatura
                 float diffTemp = caldeira.getTemperaturaFonteCalor() - caldeira.getTemperaturaCorrente();
@@ -117,9 +122,33 @@ public class Caldeira extends Observable {
         timer.schedule(tasknew, SEC, SEC);
     }
         
+    public boolean estaNivelAlto() { 
+        return nivelCorrente > nivelMax; 
+    }
+    public boolean estaNivelBaixo() { 
+        return nivelCorrente < nivelMin; 
+    }
+    public boolean estaTemperaturaAlta() { 
+        return temperaturaCorrente > temperaturaMax; 
+    }
+    public boolean estaTemperaturaBaixa() { 
+        return temperaturaCorrente < temperaturaMin; 
+    }
+    public boolean eNivelCritico() { 
+        float range = nivelMax - nivelMin; 
+        float percent = (nivelCorrente/range) - 1; 
+        return percent > 0.75 || percent < 0.25; 
+    }
+    public boolean eTemperaturaCritica() {
+        float range = temperaturaMax - temperaturaMin; 
+        float percent = (temperaturaCorrente/range) - 1; 
+        return percent > 0.75 || percent < 0.25; 
+    }
+    
     @Override
     public String toString() {
         return "Caldeira [getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
                 + "]";
     }
+    
 }

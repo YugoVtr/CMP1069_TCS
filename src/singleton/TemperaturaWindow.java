@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
 
     private final Caldeira caldeira = Caldeira.getInstancia();
-    private final Notificacao noticacao = new Notificacao();
+    private final Notificacao notificacao = new Notificacao();
     
     /**
      * Creates new form TemperaturaWindow
@@ -33,24 +33,7 @@ public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
         this.jTable_Info.setRowHeight(50);
         this.jTextArea_Notify.setEditable(false);
     }
-    
-    private void checkNotify(){
-        String log_error="";
-        if (caldeira.getNivelCorrente() < caldeira.getNivelMin()) {
-            log_error += noticacao.nivelBaixo()+ "\n";
-        }
-        if (caldeira.getNivelCorrente() > caldeira.getNivelMax()) {
-            log_error += noticacao.nivelAlto()+ "\n";
-        }
-        if (caldeira.getTemperaturaCorrente() < caldeira.getTemperaturaMin()) {
-            log_error += noticacao.temperaturaBaixa()+ "\n";
-        }
-        if (caldeira.getTemperaturaCorrente() > caldeira.getTemperaturaMax()) {
-            log_error += noticacao.temperaturaAlta()+ "\n";
-        } 
-        this.jTextArea_Notify.setText(log_error);
-    }
-    
+        
     private void updateTable() { 
         JTable t = this.jTable_Info; 
         DecimalFormat df = new DecimalFormat("0.00");
@@ -58,7 +41,7 @@ public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
         float nvl = caldeira.getNivelCorrente();
         t.getModel().setValueAt(df.format(temp),0,3);
         t.getModel().setValueAt(df.format(nvl),1,3);
-        checkNotify();
+        this.jTextArea_Notify.setText(notificacao.checkNotify(this.jLabel_Icon));
     }
     
     @Override
@@ -81,6 +64,7 @@ public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea_Notify = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        jLabel_Icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Temperatura");
@@ -129,15 +113,17 @@ public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSlider_Temperatura_Fonte_Calor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jSlider_Temperatura_Fonte_Calor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
+                        .addGap(81, 81, 81)
+                        .addComponent(jLabel_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 153, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -148,7 +134,9 @@ public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSlider_Temperatura_Fonte_Calor, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel_Icon, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -198,6 +186,7 @@ public class TemperaturaWindow extends javax.swing.JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel_Icon;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSlider_Temperatura_Fonte_Calor;
