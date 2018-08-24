@@ -14,11 +14,11 @@ public class Notificacao {
       
     public enum Mensagens { 
         NIVEL_CRITICO("O Nivel de Agua está CRITICO"), 
-        NIVEL_BAIXO("O Nivel de Agua na Caldeira esta BAIXO!! Procure o RH"),
-        NIVEL_ALTO("O Nivel de Agua na Caldeira esta ALTO!! Procure o RH"),
+        NIVEL_BAIXO("O Nivel de Agua na Caldeira esta muito BAIXO!!Procure o RH!!"),
+        NIVEL_ALTO("O Nivel de Agua na Caldeira esta TRANSBORDANDO!! Procure o RH"),
         TEMPERATURA_CRITICA("A Temperatura da Caldeira esta CRITICA"), 
-        TEMPERATURA_BAIXA("A Temperatura da Caldeira esta BAIXA!! Procure o RH"),
-        TEMPERATURA_ALTA("Parabéns a Caldeira explodiu!!!! Procure o RH imediatamente!!");
+        TEMPERATURA_BAIXA("A Temperatura da Caldeira esta muito BAIXA!!Procure o RH!!"),
+        TEMPERATURA_ALTA("Parabéns a Caldeira EXPLODIU!!!! Procure o RH imediatamente!!");
         
         private final String msg; 
         
@@ -79,7 +79,7 @@ public class Notificacao {
         }
         if (c.estaNivelAlto()) {
             log_error += Mensagens.NIVEL_ALTO.toString() + "\n";
-            label.setIcon(this.getWarning(label.getWidth(), label.getHeight()));
+            label.setIcon(this.getPoison(label.getWidth(), label.getHeight()));
         }
         if (c.estaTemperaturaBaixa()) {
             log_error += Mensagens.TEMPERATURA_BAIXA.toString() + "\n";
