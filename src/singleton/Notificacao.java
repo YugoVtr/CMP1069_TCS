@@ -79,13 +79,13 @@ public class Notificacao {
         }
         if (c.estaNivelAlto()) {
             log_error += Mensagens.NIVEL_ALTO.toString() + "\n";
-            label.setIcon(this.getPoison(label.getWidth(), label.getHeight()));
+            label.setIcon(this.getWarning(label.getWidth(), label.getHeight()));
         }
         if (c.estaTemperaturaBaixa()) {
             log_error += Mensagens.TEMPERATURA_BAIXA.toString() + "\n";
-            label.setIcon(this.getPoison(label.getWidth(), label.getHeight()));
+            label.setIcon(this.getWarning(label.getWidth(), label.getHeight()));
         }
-        if (c.estaNivelAlto()) {
+        if (c.estaTemperaturaAlta()) {
             log_error += Mensagens.TEMPERATURA_ALTA.toString() + "\n";
             label.setIcon(this.getPoison(label.getWidth(), label.getHeight()));
         } 
