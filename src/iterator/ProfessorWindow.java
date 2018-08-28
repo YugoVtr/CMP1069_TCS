@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 public final class ProfessorWindow extends javax.swing.JFrame {
 
     private final Persistencia crud = new Persistencia();
+    private String path = " ";
 
     /**
      * Creates new form ProfessorWindow
@@ -21,28 +22,20 @@ public final class ProfessorWindow extends javax.swing.JFrame {
         initComponents();
         JFileChooser chooser = new JFileChooser();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            popularTabela( chooser.getCurrentDirectory().toString());
+            this.path = chooser.getCurrentDirectory().toString();
         }
     }
-
-    public void popularTabela(String path) {
-        try {
-            for (Iterator<Professor> conteudo = this.crud.load(path); conteudo.hasNext();) {
-                Professor current = conteudo.next();
-                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
-                model.addRow(new Object[]{
-                    current.getId(),
-                    current.getNome(),
-                    current.getDep(),
-                    current.getTitulacao(),
-                    current.getTipo()
-                });
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
+    
+    public void clearTable(){
+        DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
+        int rowCount = model.getRowCount();
+        //Apaga uma linha por vez
+        for (int i = rowCount - 1; i >= 0; i--)
+        {
+            model.removeRow(i);
         }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,6 +47,10 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Professores = new javax.swing.JTable();
+        jButtonLista = new javax.swing.JButton();
+        jButtonFila = new javax.swing.JButton();
+        jButtonTreeMap = new javax.swing.JButton();
+        jButtonHashSet = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,25 +67,147 @@ public final class ProfessorWindow extends javax.swing.JFrame {
             jTable_Professores.getColumnModel().getColumn(1).setMinWidth(80);
         }
 
+        jButtonLista.setText("Lista");
+        jButtonLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListaActionPerformed(evt);
+            }
+        });
+
+        jButtonFila.setText("Fila");
+        jButtonFila.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFilaActionPerformed(evt);
+            }
+        });
+
+        jButtonTreeMap.setText("TreeMap");
+        jButtonTreeMap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTreeMapActionPerformed(evt);
+            }
+        });
+
+        jButtonHashSet.setText("HashSet");
+        jButtonHashSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHashSetActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(178, 178, 178)
+                        .addComponent(jButtonLista)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonFila, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonTreeMap)
+                        .addGap(4, 4, 4)
+                        .addComponent(jButtonHashSet, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jButtonLista)
+                    .addComponent(jButtonFila)
+                    .addComponent(jButtonTreeMap)
+                    .addComponent(jButtonHashSet))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaActionPerformed
+        try {
+            clearTable();
+            for (Iterator<Professor> conteudo = this.crud.carregaEstruturaComLista(this.path); conteudo.hasNext();) {
+                Professor current = conteudo.next();
+                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
+                model.addRow(new Object[]{
+                    current.getId(),
+                    current.getNome(),
+                    current.getDep(),
+                    current.getTitulacao(),
+                    current.getTipo()
+                });
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonListaActionPerformed
+
+    private void jButtonFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFilaActionPerformed
+        try {
+            clearTable();
+            for (Iterator<Professor> conteudo = this.crud.carregaEstruturaComFila(this.path); conteudo.hasNext();) {
+                Professor current = conteudo.next();
+                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
+                model.addRow(new Object[]{
+                    current.getId(),
+                    current.getNome(),
+                    current.getDep(),
+                    current.getTitulacao(),
+                    current.getTipo()
+                });
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonFilaActionPerformed
+
+    private void jButtonTreeMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTreeMapActionPerformed
+       try {
+            clearTable();
+            for (Iterator<Professor> conteudo = this.crud.carregaEstruturaComTreeMap(this.path); conteudo.hasNext();) {
+                Professor current = conteudo.next();
+                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
+                model.addRow(new Object[]{
+                    current.getId(),
+                    current.getNome(),
+                    current.getDep(),
+                    current.getTitulacao(),
+                    current.getTipo()
+                });
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonTreeMapActionPerformed
+
+    private void jButtonHashSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHashSetActionPerformed
+       try {
+            clearTable();
+            for (Iterator<Professor> conteudo = this.crud.carregaEstruturaComHashSet(this.path); conteudo.hasNext();) {
+                Professor current = conteudo.next();
+                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
+                model.addRow(new Object[]{
+                    current.getId(),
+                    current.getNome(),
+                    current.getDep(),
+                    current.getTitulacao(),
+                    current.getTipo()
+                });
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonHashSetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -126,6 +245,10 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonFila;
+    private javax.swing.JButton jButtonHashSet;
+    private javax.swing.JButton jButtonLista;
+    private javax.swing.JButton jButtonTreeMap;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Professores;
     // End of variables declaration//GEN-END:variables
