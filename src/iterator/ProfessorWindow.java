@@ -21,6 +21,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     public ProfessorWindow() {
         initComponents();
         JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             this.path = chooser.getCurrentDirectory().toString();
         }
@@ -51,8 +52,10 @@ public final class ProfessorWindow extends javax.swing.JFrame {
         jButtonFila = new javax.swing.JButton();
         jButtonTreeMap = new javax.swing.JButton();
         jButtonHashSet = new javax.swing.JButton();
+        jButtonLimpar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Padrão Iterator");
 
         jTable_Professores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -62,6 +65,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
                 "Id", "Nome", "Departamento", "Titulação", "Tipo"
             }
         ));
+        jTable_Professores.setEnabled(false);
         jScrollPane1.setViewportView(jTable_Professores);
         if (jTable_Professores.getColumnModel().getColumnCount() > 0) {
             jTable_Professores.getColumnModel().getColumn(1).setMinWidth(80);
@@ -95,6 +99,13 @@ public final class ProfessorWindow extends javax.swing.JFrame {
             }
         });
 
+        jButtonLimpar.setText("Limpar");
+        jButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimparActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,7 +121,8 @@ public final class ProfessorWindow extends javax.swing.JFrame {
                         .addComponent(jButtonTreeMap)
                         .addGap(4, 4, 4)
                         .addComponent(jButtonHashSet, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonLimpar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -126,7 +138,8 @@ public final class ProfessorWindow extends javax.swing.JFrame {
                     .addComponent(jButtonLista)
                     .addComponent(jButtonFila)
                     .addComponent(jButtonTreeMap)
-                    .addComponent(jButtonHashSet))
+                    .addComponent(jButtonHashSet)
+                    .addComponent(jButtonLimpar))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -209,6 +222,10 @@ public final class ProfessorWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonHashSetActionPerformed
 
+    private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
+        clearTable();
+    }//GEN-LAST:event_jButtonLimparActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -247,6 +264,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonFila;
     private javax.swing.JButton jButtonHashSet;
+    private javax.swing.JButton jButtonLimpar;
     private javax.swing.JButton jButtonLista;
     private javax.swing.JButton jButtonTreeMap;
     private javax.swing.JScrollPane jScrollPane1;
