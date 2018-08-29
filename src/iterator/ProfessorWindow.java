@@ -37,6 +37,21 @@ public final class ProfessorWindow extends javax.swing.JFrame {
         }
     }
     
+    public void imprimeTable(Iterator<Professor> metodo){
+        clearTable();
+        for (Iterator<Professor> conteudo = metodo; conteudo.hasNext();) {
+            Professor current = conteudo.next();
+            DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
+            model.addRow(new Object[]{
+                current.getId(),
+                current.getNome(),
+                current.getDep(),
+                current.getTitulacao(),
+                current.getTipo()
+            });
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -148,18 +163,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
     private void jButtonListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaActionPerformed
         try {
-            clearTable();
-            for (Iterator<Professor> conteudo = this.crud.carregaEstruturaComLista(this.path); conteudo.hasNext();) {
-                Professor current = conteudo.next();
-                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
-                model.addRow(new Object[]{
-                    current.getId(),
-                    current.getNome(),
-                    current.getDep(),
-                    current.getTitulacao(),
-                    current.getTipo()
-                });
-            }
+            imprimeTable(this.crud.carregaEstruturaComLista(this.path));
         } catch (IOException ex) {
             Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -167,18 +171,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
     private void jButtonFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFilaActionPerformed
         try {
-            clearTable();
-            for (Iterator<Professor> conteudo = this.crud.carregaEstruturaComFila(this.path); conteudo.hasNext();) {
-                Professor current = conteudo.next();
-                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
-                model.addRow(new Object[]{
-                    current.getId(),
-                    current.getNome(),
-                    current.getDep(),
-                    current.getTitulacao(),
-                    current.getTipo()
-                });
-            }
+            imprimeTable(this.crud.carregaEstruturaComFila(this.path));
         } catch (IOException ex) {
             Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -186,18 +179,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
     private void jButtonTreeMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTreeMapActionPerformed
        try {
-            clearTable();
-            for (Iterator<Professor> conteudo = this.crud.carregaEstruturaComTreeMap(this.path); conteudo.hasNext();) {
-                Professor current = conteudo.next();
-                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
-                model.addRow(new Object[]{
-                    current.getId(),
-                    current.getNome(),
-                    current.getDep(),
-                    current.getTitulacao(),
-                    current.getTipo()
-                });
-            }
+            imprimeTable(this.crud.carregaEstruturaComTreeMap(this.path));
         } catch (IOException ex) {
             Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -205,18 +187,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
     private void jButtonHashSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHashSetActionPerformed
        try {
-            clearTable();
-            for (Iterator<Professor> conteudo = this.crud.carregaEstruturaComHashSet(this.path); conteudo.hasNext();) {
-                Professor current = conteudo.next();
-                DefaultTableModel model = (DefaultTableModel) this.jTable_Professores.getModel();
-                model.addRow(new Object[]{
-                    current.getId(),
-                    current.getNome(),
-                    current.getDep(),
-                    current.getTitulacao(),
-                    current.getTipo()
-                });
-            }
+            imprimeTable(this.crud.carregaEstruturaComHashSet(this.path));
         } catch (IOException ex) {
             Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
