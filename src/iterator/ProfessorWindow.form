@@ -167,14 +167,13 @@
     <Component class="javax.swing.JComboBox" name="jComboBox_Ordenacao">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="7">
+          <StringArray count="6">
             <StringItem index="0" value="Id"/>
             <StringItem index="1" value="Nome"/>
             <StringItem index="2" value="Departamento"/>
-            <StringItem index="3" value="Id | Departamento | Nome"/>
-            <StringItem index="4" value="Nome | Id | Departamento"/>
-            <StringItem index="5" value="Departamento | Nome | Id"/>
-            <StringItem index="6" value=" "/>
+            <StringItem index="3" value="Titula&#xe7;&#xe3;o | Tipo | Departamento"/>
+            <StringItem index="4" value="Tipo | Departamento | Titulo"/>
+            <StringItem index="5" value="Departamento | Titula&#xe7;&#xe3;o | Tipo"/>
           </StringArray>
         </Property>
       </Properties>

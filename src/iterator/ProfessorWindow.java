@@ -70,6 +70,15 @@ public final class ProfessorWindow extends javax.swing.JFrame {
             case 2: 
                 Collections.sort(conteudo, new ComparePorDepartamento()); 
                 break; 
+            case 3: 
+                Collections.sort(conteudo, new ComparePorTitulacaoTipoDep()); 
+                break;
+            case 4: 
+                Collections.sort(conteudo, new ComparePorTipoDepTitulacao()); 
+                break;
+            case 5: 
+                Collections.sort(conteudo, new ComparePorDepTitulacaoTipo()); 
+                break;
             default:
                 System.out.print("Ordenacao nao definida");
                 break; 
@@ -157,7 +166,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
             }
         });
 
-        jComboBox_Ordenacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id", "Nome", "Departamento", "Id | Departamento | Nome", "Nome | Id | Departamento", "Departamento | Nome | Id", " " }));
+        jComboBox_Ordenacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id", "Nome", "Departamento", "Titulação | Tipo | Departamento", "Tipo | Departamento | Titulo", "Departamento | Titulação | Tipo" }));
         jComboBox_Ordenacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_OrdenacaoActionPerformed(evt);
