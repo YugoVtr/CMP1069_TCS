@@ -1,11 +1,15 @@
 package iterator;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Iterator;
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
+import template_method.*; 
+
 
 /**
  * @author Yugo
@@ -21,7 +25,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     public ProfessorWindow() {
         initComponents();
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(new java.io.File("./src/iterator"));
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             this.path = chooser.getCurrentDirectory().toString();
         }
@@ -52,6 +56,36 @@ public final class ProfessorWindow extends javax.swing.JFrame {
         }
     }
     
+    public void ordena() throws IOException { 
+        int type = this.jComboBox_Ordenacao.getSelectedIndex(); 
+        Iterator<Professor> iter = this.crud.carregaEstruturaComLista(this.path);
+        ArrayList conteudo = toArrayList(iter); 
+        switch( type ) {
+            case 0:
+                Collections.sort(conteudo, new ComparePorId()); 
+                break; 
+            case 1: 
+                Collections.sort(conteudo, new ComparePorNome()); 
+                break; 
+            case 2: 
+                Collections.sort(conteudo, new ComparePorDepartamento()); 
+                break; 
+            default:
+                System.out.print("Ordenacao nao definida");
+                break; 
+        }
+        imprimeTable(conteudo.iterator()); 
+    }
+    
+    public ArrayList toArrayList( Iterator i ) { 
+        ArrayList arrList;
+        arrList = new ArrayList();
+        while (i.hasNext()) {
+            arrList.add(i.next()); 
+        }
+        return arrList; 
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,6 +102,8 @@ public final class ProfessorWindow extends javax.swing.JFrame {
         jButtonTreeMap = new javax.swing.JButton();
         jButtonHashSet = new javax.swing.JButton();
         jButtonLimpar = new javax.swing.JButton();
+        jComboBox_Ordenacao = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Padrão Iterator");
@@ -121,14 +157,27 @@ public final class ProfessorWindow extends javax.swing.JFrame {
             }
         });
 
+        jComboBox_Ordenacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id", "Nome", "Departamento", "Id | Departamento | Nome", "Nome | Id | Departamento", "Departamento | Nome | Id", " " }));
+        jComboBox_Ordenacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_OrdenacaoActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Ordenar por:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(178, 178, 178)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox_Ordenacao, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonLista)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonFila, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -136,11 +185,9 @@ public final class ProfessorWindow extends javax.swing.JFrame {
                         .addComponent(jButtonTreeMap)
                         .addGap(4, 4, 4)
                         .addComponent(jButtonHashSet, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jButtonLimpar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -154,7 +201,9 @@ public final class ProfessorWindow extends javax.swing.JFrame {
                     .addComponent(jButtonFila)
                     .addComponent(jButtonTreeMap)
                     .addComponent(jButtonHashSet)
-                    .addComponent(jButtonLimpar))
+                    .addComponent(jButtonLimpar)
+                    .addComponent(jComboBox_Ordenacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -197,6 +246,14 @@ public final class ProfessorWindow extends javax.swing.JFrame {
         clearTable();
     }//GEN-LAST:event_jButtonLimparActionPerformed
 
+    private void jComboBox_OrdenacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_OrdenacaoActionPerformed
+        try { 
+            ordena();
+        } catch (IOException ex) {
+            Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jComboBox_OrdenacaoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -238,6 +295,8 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButtonLimpar;
     private javax.swing.JButton jButtonLista;
     private javax.swing.JButton jButtonTreeMap;
+    private javax.swing.JComboBox<String> jComboBox_Ordenacao;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Professores;
     // End of variables declaration//GEN-END:variables
