@@ -53,28 +53,25 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     
     private void ordena() { 
         int type = this.jComboBox_Ordenacao.getSelectedIndex(); 
-        Persistencia drive = new AdapterPersistencia(); 
+        Persistencia drive = new ProfessorPersistencia(); 
         Iterator<Professor> iter = drive.selectAll();
  
         ArrayList conteudo = toArrayList(iter); 
         switch( type ) {
-            case 0:
+            case 0: //Id
                 Collections.sort(conteudo, new ComparePorId()); 
                 break; 
-            case 1: 
+            case 1: //Nome 
                 Collections.sort(conteudo, new ComparePorNome()); 
                 break; 
-            case 2: 
-                Collections.sort(conteudo, new ComparePorDepartamento()); 
+            case 2: //Departamento | Nome
+                Collections.sort(conteudo, new ComparePorDepNome()); 
                 break; 
-            case 3: 
-                Collections.sort(conteudo, new ComparePorTitulacaoTipoDep()); 
+            case 3: //Titulacao | Nome 
+                Collections.sort(conteudo, new ComparePorTitulacaoNome()); 
                 break;
-            case 4: 
-                Collections.sort(conteudo, new ComparePorTipoDepTitulacao()); 
-                break;
-            case 5: 
-                Collections.sort(conteudo, new ComparePorDepTitulacaoTipo()); 
+            case 4: //Departamento | Titulacao | Nome 
+                Collections.sort(conteudo, new ComparePorDepTitulacaoNome()); 
                 break;
             default:
                 System.out.print("Ordenacao nao definida");
@@ -163,7 +160,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
             }
         });
 
-        jComboBox_Ordenacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id", "Nome", "Departamento", "Titulação | Tipo | Departamento", "Tipo | Departamento | Titulo", "Departamento | Titulação | Tipo" }));
+        jComboBox_Ordenacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Id", "Nome", "Departamento | Nome ", "Titulação | Nome ", "Departamento | Titulação | Nome ", " " }));
         jComboBox_Ordenacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_OrdenacaoActionPerformed(evt);

@@ -170,10 +170,10 @@
           <StringArray count="6">
             <StringItem index="0" value="Id"/>
             <StringItem index="1" value="Nome"/>
-            <StringItem index="2" value="Departamento"/>
-            <StringItem index="3" value="Titula&#xe7;&#xe3;o | Tipo | Departamento"/>
-            <StringItem index="4" value="Tipo | Departamento | Titulo"/>
-            <StringItem index="5" value="Departamento | Titula&#xe7;&#xe3;o | Tipo"/>
+            <StringItem index="2" value="Departamento | Nome "/>
+            <StringItem index="3" value="Titula&#xe7;&#xe3;o | Nome "/>
+            <StringItem index="4" value="Departamento | Titula&#xe7;&#xe3;o | Nome "/>
+            <StringItem index="5" value=" "/>
           </StringArray>
         </Property>
       </Properties>
