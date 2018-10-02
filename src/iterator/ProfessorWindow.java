@@ -2,6 +2,7 @@ package iterator;
 
 import adapter.AdapterPersistencia;
 import adapter.Persistencia;
+import decorator.UpperPersistencia;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,6 @@ import java.util.logging.Logger;
 import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
 import template_method.*; 
-import adapter.SQLiteJDBCDriverConnection; 
 
 /**
  * @author Yugo
@@ -54,6 +54,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     private void ordena() { 
         int type = this.jComboBox_Ordenacao.getSelectedIndex(); 
         Persistencia drive = new ProfessorPersistencia(); 
+        drive = new UpperPersistencia(drive); 
         Iterator<Professor> iter = drive.selectAll();
  
         ArrayList conteudo = toArrayList(iter); 
