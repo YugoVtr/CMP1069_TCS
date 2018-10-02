@@ -1,6 +1,6 @@
 package iterator;
 
-import java.util.List;
+import adapter.Persistencia;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.io.BufferedReader;
@@ -15,22 +15,31 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Yugo
  */
-public class Persistencia {
+public class ProfessorPersistencia implements Persistencia {
      
-    public Persistencia() { 
+    /**
+     * Esta persistencia implementa o metodo CarregaEstrutura com 
+     * diferentes estruturas de dados para demonstrar a flexibilidade
+     * do padrao Iterator
+     */
+    public ProfessorPersistencia() { 
     }
     
-    public Iterator<Professor> carregaEstruturaComLista(String path) throws IOException{ 
-        List<Professor> objetos;
-       
-        objetos = new ArrayList<>();
-        
-        String url_1 = path + File.separator + "Professores.csv"; 
-        String url_2 = path + File.separator + "DadosGerais.csv";
+    /**
+     * @return Iterator
+     * @throws IOException
+     */
+    public Iterator<Professor> carregaEstruturaComLista() throws IOException{ 
+        ArrayList<Professor> objetos = new ArrayList<>();
+        String s = File.separator; 
+        String url_1 = "." + s + "src" + s + "iterator" + s + "Professores.csv"; 
+        String url_2 = "." + s + "src" + s + "iterator" + s + "DadosGerais.csv";
         
         Map<String,String> professores = readFromFile(url_1); 
         Map<String,String> dadosGerais = readFromFile(url_2); 
@@ -54,11 +63,17 @@ public class Persistencia {
         return objetos.iterator(); 
     }    
     
-    public Iterator<Professor> carregaEstruturaComFila(String path) throws IOException{
+    /**
+     *
+     * @return Iterator
+     * @throws IOException
+     */
+    public Iterator<Professor> carregaEstruturaComFila() throws IOException{
         Queue<Professor> objetos = new ArrayDeque<>();
         
-        String url_1 = path + File.separator + "Professores.csv"; 
-        String url_2 = path + File.separator + "DadosGerais.csv";
+        String s = File.separator; 
+        String url_1 = "." + s + "src" + s + "iterator" + s + "Professores.csv"; 
+        String url_2 = "." + s + "src" + s + "iterator" + s + "DadosGerais.csv";
         
         Map<String,String> professores = readFromFile(url_1); 
         Map<String,String> dadosGerais = readFromFile(url_2); 
@@ -82,11 +97,17 @@ public class Persistencia {
         return objetos.iterator(); 
     }
     
-    public Iterator<Professor> carregaEstruturaComTreeMap(String path) throws IOException{
+    /**
+     *
+     * @return Iterator
+     * @throws IOException
+     */
+    public Iterator<Professor> carregaEstruturaComTreeMap() throws IOException{
         Map<Integer,Professor> objetos = new TreeMap<>();
         
-        String url_1 = path + File.separator + "Professores.csv"; 
-        String url_2 = path + File.separator + "DadosGerais.csv";
+        String s = File.separator; 
+        String url_1 = "." + s + "src" + s + "iterator" + s + "Professores.csv"; 
+        String url_2 = "." + s + "src" + s + "iterator" + s + "DadosGerais.csv";
         
         Map<String,String> professores = readFromFile(url_1); 
         Map<String,String> dadosGerais = readFromFile(url_2); 
@@ -113,11 +134,17 @@ public class Persistencia {
         return a.iterator(); 
     }
     
-    public Iterator<Professor> carregaEstruturaComHashSet(String path) throws IOException{
+    /**
+     *
+     * @return Iterator
+     * @throws IOException
+     */
+    public Iterator<Professor> carregaEstruturaComHashSet() throws IOException{
         Set<Professor> objetos = new HashSet<>();
-        
-        String url_1 = path + File.separator + "Professores.csv"; 
-        String url_2 = path + File.separator + "DadosGerais.csv";
+                 
+        String s = File.separator; 
+        String url_1 = "." + s + "src" + s + "iterator" + s + "Professores.csv"; 
+        String url_2 = "." + s + "src" + s + "iterator" + s + "DadosGerais.csv";
         
         Map<String,String> professores = readFromFile(url_1); 
         Map<String,String> dadosGerais = readFromFile(url_2); 
@@ -141,6 +168,11 @@ public class Persistencia {
         return objetos.iterator();
     }
     
+    /**
+     *  A chave (Key) do Map e o identificador é o conteudo (Value)
+     *  e todo o conteudo do Objeto
+     *  @return Map(String,String) 
+    */
     private Map<String,String> readFromFile(String url) throws IOException {
         Map<String,String> linhas = new HashMap<>();
         FileReader file = new FileReader(url);
@@ -150,5 +182,19 @@ public class Persistencia {
             linhas.put(st.split(";")[0], st);
         }
         return linhas; 
+    }
+
+    /**
+     * @return Iterator
+     */
+    @Override
+    public Iterator selectAll() {
+        Iterator res = null; 
+        try { 
+            res = carregaEstruturaComLista();
+        } catch (IOException ex) {
+            Logger.getLogger(ProfessorPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res; 
     }
 }

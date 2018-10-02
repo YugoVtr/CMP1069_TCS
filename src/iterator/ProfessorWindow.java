@@ -1,34 +1,29 @@
 package iterator;
 
+import adapter.AdapterPersistencia;
+import adapter.Persistencia;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Iterator;
-import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 import template_method.*; 
-
+import adapter.SQLiteJDBCDriverConnection; 
 
 /**
  * @author Yugo
  */
 public final class ProfessorWindow extends javax.swing.JFrame {
 
-    private final Persistencia crud = new Persistencia();
-    private String path = " ";
+    private final ProfessorPersistencia crud = new ProfessorPersistencia();
 
     /**
      * Creates new form ProfessorWindow
      */
     public ProfessorWindow() {
         initComponents();
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("./src/iterator"));
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            this.path = chooser.getCurrentDirectory().toString();
-        }
     }
     
     public void clearTable(){
@@ -56,9 +51,11 @@ public final class ProfessorWindow extends javax.swing.JFrame {
         }
     }
     
-    public void ordena() throws IOException { 
+    private void ordena() { 
         int type = this.jComboBox_Ordenacao.getSelectedIndex(); 
-        Iterator<Professor> iter = this.crud.carregaEstruturaComLista(this.path);
+        Persistencia drive = new AdapterPersistencia(); 
+        Iterator<Professor> iter = drive.selectAll();
+ 
         ArrayList conteudo = toArrayList(iter); 
         switch( type ) {
             case 0:
@@ -221,7 +218,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
     private void jButtonListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaActionPerformed
         try {
-            imprimeTable(this.crud.carregaEstruturaComLista(this.path));
+            imprimeTable(this.crud.carregaEstruturaComLista());
         } catch (IOException ex) {
             Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -229,7 +226,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
     private void jButtonFilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFilaActionPerformed
         try {
-            imprimeTable(this.crud.carregaEstruturaComFila(this.path));
+            imprimeTable(this.crud.carregaEstruturaComFila());
         } catch (IOException ex) {
             Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -237,7 +234,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
     private void jButtonTreeMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTreeMapActionPerformed
        try {
-            imprimeTable(this.crud.carregaEstruturaComTreeMap(this.path));
+            imprimeTable(this.crud.carregaEstruturaComTreeMap());
         } catch (IOException ex) {
             Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -245,7 +242,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
 
     private void jButtonHashSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHashSetActionPerformed
        try {
-            imprimeTable(this.crud.carregaEstruturaComHashSet(this.path));
+            imprimeTable(this.crud.carregaEstruturaComHashSet());
         } catch (IOException ex) {
             Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -256,11 +253,7 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLimparActionPerformed
 
     private void jComboBox_OrdenacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_OrdenacaoActionPerformed
-        try { 
-            ordena();
-        } catch (IOException ex) {
-            Logger.getLogger(ProfessorWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ordena();
     }//GEN-LAST:event_jComboBox_OrdenacaoActionPerformed
 
     /**

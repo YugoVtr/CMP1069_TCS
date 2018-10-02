@@ -5,13 +5,16 @@ package iterator;
  */
 public class Professor {
 
-    private int id;
-    private String nome; 
-    private String dep;
-    private String titulacao;
-    private String tipo;
+    private int id = 0;
+    private String nome = ""; 
+    private String dep = "";
+    private String titulacao = "";
+    private String tipo = "";
 
-    public Professor(int id, String nome, String dep, String titulacao, String tipo) {
+    public Professor(int id, String nome, String dep, String titulacao, String tipo) throws Exception {
+        if( id == 0 )  { 
+            throw new Exception(); 
+        }
         this.id = id;
         this.nome = nome; 
         this.dep = dep;
