@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
 import template_method.*; 
+import strategy.*; 
 
 /**
  * @author Yugo
@@ -54,28 +55,28 @@ public final class ProfessorWindow extends javax.swing.JFrame {
     
     private void ordena(Iterator<Professor> iter) { 
         int type = this.jComboBox_Ordenacao.getSelectedIndex(); 
-        ArrayList conteudo = toArrayList(iter); 
+        DefaultSort ordenar = new DefaultSort();
         switch( type ) {
             case 0: //Id
-                Collections.sort(conteudo, new ComparePorId()); 
+                iter = ordenar.sort(iter, new ComparePorId()); 
                 break; 
             case 1: //Nome 
-                Collections.sort(conteudo, new ComparePorNome()); 
+                iter = ordenar.sort(iter, new ComparePorNome()); 
                 break; 
             case 2: //Departamento | Nome
-                Collections.sort(conteudo, new ComparePorDepNome()); 
+                iter = ordenar.sort(iter, new ComparePorDepNome()); 
                 break; 
             case 3: //Titulacao | Nome 
-                Collections.sort(conteudo, new ComparePorTitulacaoNome()); 
+                iter = ordenar.sort(iter, new ComparePorTitulacaoNome()); 
                 break;
             case 4: //Departamento | Titulacao | Nome 
-                Collections.sort(conteudo, new ComparePorDepTitulacaoNome()); 
+                iter = ordenar.sort(iter, new ComparePorDepTitulacaoNome()); 
                 break;
             default:
                 System.out.print("Ordenacao nao definida");
                 break; 
         }
-        imprimeTable(conteudo.iterator()); 
+        imprimeTable(iter); 
     }
     
     public ArrayList toArrayList( Iterator i ) { 

@@ -340,7 +340,6 @@
         <Component class="javax.swing.JRadioButton" name="jRadioButton_Encrypt">
           <Properties>
             <Property name="text" type="java.lang.String" value="encrypt"/>
-            <Property name="actionCommand" type="java.lang.String" value="encrypt"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton_EncryptActionPerformed"/>

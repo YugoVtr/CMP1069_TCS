@@ -15,9 +15,9 @@ public class Main {
 
     public static void main(String[] args) {
         try {
+            int arg = (args.length > 0) ? Integer.parseInt(args[0]) : 0 ;
             //singleton();
             //iterator();
-            int arg = (args.length > 0) ? Integer.parseInt(args[0]) : 0 ;
             observer(Tipo.Integer(arg)); 
         } catch (Exception e) {
             System.out.print(e.getMessage() + "\n");
