@@ -9,7 +9,7 @@ import java.util.Observable;
 /**
  * @author Yugo
  */
-public class Cliente extends Observable {
+public class Cliente extends Observable implements Runnable{
     String msg; 
     Socket s; 
     
@@ -17,14 +17,8 @@ public class Cliente extends Observable {
        try { 
             this.s = new Socket(ip, port);
             if (s == null) throw new Exception("Connection refused"); 
-            BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
-            while (true) {
-                this.msg = bfr.readLine();
-                setChanged();
-                notifyObservers();
-            }
        } catch (IOException e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage() + "\n");
        }
     }
     
@@ -34,5 +28,19 @@ public class Cliente extends Observable {
     
     public void enviarMsg(String msg) throws IOException { 
         this.s.getOutputStream().write(msg.getBytes());
+    }
+
+    @Override
+    public void run() {
+        try {
+            BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
+            while (true) {
+                this.msg = bfr.readLine();
+                setChanged();
+                notifyObservers();
+            }
+        } catch (IOException e) {
+            System.out.println("Erro: " + e.getMessage() + "\n");
+        }
     }
 }

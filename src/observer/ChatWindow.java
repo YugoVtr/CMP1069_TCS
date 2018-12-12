@@ -17,7 +17,9 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
      */
     public ChatWindow() {
         try {
-            this.cliente = new Cliente("10.62.0.60",7777);
+            this.cliente = new Cliente("192.168.25.12",7777);
+            Thread threadServer = new Thread (this.cliente);
+            threadServer.start();
             cliente.addObserver(this);
         } catch (Exception ex) {
             System.out.println("Erro: " + ex.getMessage());

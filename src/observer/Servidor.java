@@ -31,12 +31,15 @@ public class Servidor extends Observable implements Runnable{
             while(true) { 
                 for (Conexao c : this.conexoes) { 
                     Socket s = c.getSocket(); 
-                    BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
-                    String dados = bfr.readLine(); 
-                    if (!dados.isEmpty()) { 
-                        this.msg = dados; 
-                        setChanged();
-                        notifyObservers();
+                    if(s.isConnected()) { 
+                        BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
+                        String dados = bfr.readLine(); 
+                        if (!dados.isEmpty()) {
+                            System.out.println("Mensagem Recebida => " + s.getInetAddress().toString() + "\n");
+                            this.msg = dados; 
+                            setChanged();
+                            notifyObservers();
+                        }
                     }
                 }
             }
