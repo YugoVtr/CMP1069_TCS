@@ -91,6 +91,7 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
     private void jButton_EnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EnviarActionPerformed
         String msg = this.jTextField_Input.getText(); 
         try {
+            this.jTextField_Input.setText("");
             this.cliente.enviarMsg(msg);
         } catch (IOException ex) {
             Logger.getLogger(ChatWindow.class.getName()).log(Level.SEVERE, null, ex);

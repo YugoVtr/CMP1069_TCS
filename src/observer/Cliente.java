@@ -29,6 +29,8 @@ public class Cliente extends Observable implements Runnable{
     public void enviarMsg(String msg) throws IOException { 
         if (this.s.isConnected()) { 
             this.s.getOutputStream().write(msg.getBytes());
+        } else {
+            System.out.println("Disconectado...\n");
         }
     }
 

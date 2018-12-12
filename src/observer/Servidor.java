@@ -58,7 +58,8 @@ public class Servidor extends Observable implements Runnable{
         while(true) { 
             try {
                 Socket socket = ss.accept();
-                Conexao c = new Conexao(this, socket); 
+                Conexao c = new Conexao(this, socket);
+                System.out.println("Nova Conexão => " + socket.toString() + "\n");
                 this.conexoes.add(c); 
             } catch (IOException e) {
                 System.out.println("Erro: " + e.getMessage() + "\n");
