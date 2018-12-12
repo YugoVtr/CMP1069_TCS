@@ -55,6 +55,9 @@ public class Conexao extends Observable implements Observer, Runnable {
     public void run() {
         try {
             while(true) { 
+                if(!socket.isConnected()) { 
+                    return;
+                } 
                 Scanner entrada = new Scanner(socket.getInputStream());
                 String msg = entrada.nextLine();
                 if(!msg.isEmpty()) {
