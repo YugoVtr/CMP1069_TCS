@@ -1,5 +1,6 @@
 package observer;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -34,6 +35,17 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
         } 
     }
     
+    public void enviarMsg()
+    {
+        String msg = this.NameUser + ": " + this.jTextField_Input.getText(); 
+        try {
+            this.jTextField_Input.setText("");
+            this.cliente.enviarMsg(msg);
+        } catch (IOException ex) {
+            Logger.getLogger(ChatWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,6 +74,12 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
         jTextArea_Output.setColumns(20);
         jTextArea_Output.setRows(5);
         jScrollPane1.setViewportView(jTextArea_Output);
+
+        jTextField_Input.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_InputKeyPressed(evt);
+            }
+        });
 
         jButton_Enviar.setText("Enviar");
         jButton_Enviar.addActionListener(new java.awt.event.ActionListener() {
@@ -155,13 +173,7 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_EnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_EnviarActionPerformed
-        String msg = this.NameUser + ": " + this.jTextField_Input.getText(); 
-        try {
-            this.jTextField_Input.setText("");
-            this.cliente.enviarMsg(msg);
-        } catch (IOException ex) {
-            Logger.getLogger(ChatWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        enviarMsg();
     }//GEN-LAST:event_jButton_EnviarActionPerformed
 
     private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed
@@ -171,9 +183,16 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
          this.NameUser = jTextFieldNameUser.getText();
          initCliente(jTextFieldIP.getText());
          jTextArea_Output.setEnabled(true);
-        jTextField_Input.setEnabled(true);
-        jButton_Enviar.setEnabled(true);
+         jTextField_Input.setEnabled(true);
+         jButton_Enviar.setEnabled(true);
     }//GEN-LAST:event_jButtonConectarActionPerformed
+
+    private void jTextField_InputKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_InputKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        {
+            enviarMsg();
+        }
+    }//GEN-LAST:event_jTextField_InputKeyPressed
 
     /**
      * @param args the command line arguments
