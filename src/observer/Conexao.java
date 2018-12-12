@@ -39,7 +39,7 @@ public class Conexao extends Observable implements Observer, Runnable {
             if(o instanceof Servidor && socket.isConnected()) {
                 Servidor server = (Servidor) o; 
                 String msg = server.getMsg(); 
-                this.socket.getOutputStream().write(msg.getBytes());
+                this.socket.getOutputStream().write((msg).getBytes());
             }
         } catch (IOException e) {
             System.out.println("Erro: " + e.getMessage() + "\n");
@@ -52,21 +52,18 @@ public class Conexao extends Observable implements Observer, Runnable {
 
     @Override
     public void run() {
-        while(true) { 
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String line;
-                while ((line = reader.readLine()) != null) { 
-                    if (!line.isEmpty()) {
-                        System.out.println("Mensagem Recebida => " + socket.toString() + "\n");
-                        this.msg = line; 
-                        setChanged();
-                        notifyObservers();
-                    }
+        try {
+            BufferedReader bfr = new BufferedReader(new InputStreamReader (socket.getInputStream()));
+            while(true) { 
+                String msg = bfr.readLine();
+                if(!msg.isEmpty()) {
+                    this.msg = msg; 
+                    setChanged();
+                    notifyObservers();
                 }
-            } catch (IOException e) {
-                System.out.println("Erro: " + e.getMessage() + "\n");
-            }
+            }    
+        } catch (IOException e) {
+            System.out.println("Erro: " + e.getMessage() + "\n");
         }
     }
 }

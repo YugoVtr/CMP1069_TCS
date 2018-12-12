@@ -29,7 +29,7 @@ public class Cliente extends Observable implements Runnable{
     
     public void enviarMsg(String msg) throws IOException { 
         if (this.s.isConnected()) { 
-            this.s.getOutputStream().write(msg.getBytes());
+            this.s.getOutputStream().write((msg).getBytes());
         } else {
             System.out.println("Disconectado...\n");
         }
@@ -37,21 +37,14 @@ public class Cliente extends Observable implements Runnable{
 
     @Override
     public void run() {
-        try {            
+        try {       
+            BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
             while (true) {
-                if( this.s.isConnected()) {
-                    Scanner entrada = new Scanner(s.getInputStream());
-                    String dados = ""; 
-                    while(entrada.hasNext()) { 
-                        dados += entrada.next() + "\n"; 
-                    }
-                    if(msg.isEmpty()) {
-                        this.msg = dados; 
-                        setChanged();
-                        notifyObservers();
-                    }
-                } else {
-                    System.out.println("Disconectado... \n");
+                String msg = bfr.readLine();
+                if(!msg.isEmpty()) {
+                    this.msg = msg; 
+                    setChanged();
+                    notifyObservers();
                 }
             }
         } catch (IOException e) {
