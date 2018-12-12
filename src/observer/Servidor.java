@@ -31,6 +31,7 @@ public class Servidor extends Observable implements Runnable{
             while(true) { 
                 for (Conexao c : this.conexoes) { 
                     Socket s = c.getSocket(); 
+                    System.out.println("Monitorando Conexão => " + s.toString() + "\n");
                     if(s.isConnected()) { 
                         BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
                         String dados = bfr.readLine(); 
