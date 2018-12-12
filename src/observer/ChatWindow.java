@@ -236,6 +236,7 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
                 Cliente server = (Cliente) o; 
                 String msg = server.getMsg(); 
                 this.jTextArea_Output.setText(this.jTextArea_Output.getText() + "\n" + msg); 
+                this.jTextArea_Output.setCaretPosition(this.jTextArea_Output.getDocument().getLength());
             }
         } catch (Exception e) {
             System.out.println("Erro: " + e.getMessage());
