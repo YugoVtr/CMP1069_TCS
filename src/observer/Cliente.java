@@ -3,8 +3,10 @@ package observer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Observable;
+import java.util.Scanner;
 
 /**
  * @author Yugo
@@ -28,7 +30,8 @@ public class Cliente extends Observable implements Runnable{
     
     public void enviarMsg(String msg) throws IOException { 
         if (this.s.isConnected()) { 
-            this.s.getOutputStream().write(msg.getBytes());
+            OutputStreamWriter osw = new OutputStreamWriter(s.getOutputStream(), "UTF-8");
+            osw.write(msg, 0, msg.length());
         } else {
             System.out.println("Disconectado...\n");
         }
@@ -39,15 +42,18 @@ public class Cliente extends Observable implements Runnable{
         try {            
             while (true) {
                 if( this.s.isConnected()) {
-                    BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
-                    String msg = bfr.readLine();
+                    Scanner entrada = new Scanner(s.getInputStream());
+                    String dados = ""; 
+                    while(entrada.hasNext()) { 
+                        dados += entrada.next() + "\n"; 
+                    }
                     if(msg.isEmpty()) {
-                        this.msg = msg; 
+                        this.msg = dados; 
                         setChanged();
                         notifyObservers();
                     }
                 } else {
-                    //System.out.println("Disconectado... \n");
+                    System.out.println("Disconectado... \n");
                 }
             }
         } catch (IOException e) {

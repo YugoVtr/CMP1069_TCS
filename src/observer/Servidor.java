@@ -35,7 +35,10 @@ public class Servidor extends Observable implements Runnable{
                     System.out.println("Monitorando Conexão => " + s.toString() + "\n");
                     if(s.isConnected()) { 
                         Scanner entrada = new Scanner(s.getInputStream());
-                        String dados = entrada.next(); 
+                        String dados = ""; 
+                        while(entrada.hasNext()) { 
+                            dados += entrada.next() + "\n"; 
+                        }
                         if (!dados.isEmpty()) {
                             System.out.println("Mensagem Recebida => " + s.getInetAddress().toString() + "\n");
                             this.msg = dados; 
