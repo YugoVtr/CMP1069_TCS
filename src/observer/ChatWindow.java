@@ -16,18 +16,21 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
      * Creates new form ChatWindow
      */
     public ChatWindow() {
+        initComponents();
+        initCliente();   
+    }
+   
+    public void initCliente() { 
         try {
-            this.cliente = new Cliente("192.168.25.12",7777);
+            this.cliente = new Cliente("192.168.25.12", 7777);
             Thread threadServer = new Thread (this.cliente);
             threadServer.start();
             cliente.addObserver(this);
         } catch (Exception ex) {
             System.out.println("Erro: " + ex.getMessage());
-        }
-        initComponents();
-        
+        } 
     }
-   
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +47,7 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTextArea_Output.setEditable(false);
         jTextArea_Output.setColumns(20);
         jTextArea_Output.setRows(5);
         jScrollPane1.setViewportView(jTextArea_Output);
@@ -78,7 +82,7 @@ public class ChatWindow extends javax.swing.JFrame implements Observer {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField_Input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_Enviar))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

@@ -14,10 +14,15 @@ public class Conexao implements Observer {
     Observable servidor; 
     Socket socket;
     public Conexao(Observable servidor, Socket s) throws Exception {
-        Observer o = this;
-        this.servidor = servidor;
-        servidor.addObserver(o);
-        this.socket = s;
+        if (s.isConnected()) {
+            Observer o = this;
+            this.servidor = servidor;
+            servidor.addObserver(o);
+            this.socket = s;    
+        } else {
+            System.out.println("Disconectado...\n");
+        }
+
     }
     
     public Socket getSocket() {
@@ -27,7 +32,7 @@ public class Conexao implements Observer {
     @Override
     public void update(Observable o, Object o1) {
         try {
-            if(o instanceof Servidor) {
+            if(o instanceof Servidor && socket.isConnected()) {
                 Servidor server = (Servidor) o; 
                 String msg = server.getMsg(); 
                 this.socket.getOutputStream().write(msg.getBytes());

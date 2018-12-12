@@ -11,7 +11,7 @@ import java.util.Observable;
  */
 public class Cliente extends Observable implements Runnable{
     String msg; 
-    Socket s; 
+    Socket s = new Socket(); 
     
     public Cliente(String ip, int port) throws Exception {
        try { 
@@ -27,17 +27,26 @@ public class Cliente extends Observable implements Runnable{
     }
     
     public void enviarMsg(String msg) throws IOException { 
-        this.s.getOutputStream().write(msg.getBytes());
+        if (this.s.isConnected()) { 
+            this.s.getOutputStream().write(msg.getBytes());
+        }
     }
 
     @Override
     public void run() {
-        try {
-            BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
+        try {            
             while (true) {
-                this.msg = bfr.readLine();
-                setChanged();
-                notifyObservers();
+                if( this.s.isConnected()) {
+                    BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
+                    String msg = bfr.readLine();
+                    if(msg.isEmpty()) {
+                        this.msg = msg; 
+                        setChanged();
+                        notifyObservers();
+                    }
+                } else {
+                    //System.out.println("Disconectado... \n");
+                }
             }
         } catch (IOException e) {
             System.out.println("Erro: " + e.getMessage() + "\n");

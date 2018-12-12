@@ -17,9 +17,10 @@ public class Main {
         try {
             //singleton();
             //iterator();
-            observer(Tipo.SERVIDOR); 
+            int arg = (args.length > 0) ? Integer.parseInt(args[0]) : 0 ;
+            observer(Tipo.Integer(arg)); 
         } catch (Exception e) {
-            System.out.print(e.getMessage());
+            System.out.print(e.getMessage() + "\n");
         }
     }
 
