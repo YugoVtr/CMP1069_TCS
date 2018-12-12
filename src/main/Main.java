@@ -17,7 +17,7 @@ public class Main {
         try {
             //singleton();
             //iterator();
-            observer(Tipo.CLIENTE); 
+            observer(Tipo.SERVIDOR); 
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }
@@ -36,6 +36,7 @@ public class Main {
             Servidor servidor = new Servidor(7777);
             Thread threadServer = new Thread (servidor);
             threadServer.start();
+            servidor.receber();
         } else if ( t == Tipo.CLIENTE ) { 
             ChatWindow.main(null);
         }

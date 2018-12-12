@@ -22,7 +22,7 @@ public class Servidor extends Observable implements Runnable{
             this.ss         = new ServerSocket(porta); 
             this.conexoes   = new CopyOnWriteArrayList<>();
         } catch (IOException e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage() + "\n");
         }
     }
     
@@ -41,7 +41,7 @@ public class Servidor extends Observable implements Runnable{
                 }
             }
         } catch (IOException e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage() + "\n");
         }
     }
     
@@ -51,15 +51,16 @@ public class Servidor extends Observable implements Runnable{
     
     @Override
     public void run() {
+        System.out.println("================ SERVER START ==============\n");
         while(true) { 
             try {
                 Socket socket = ss.accept();
                 Conexao c = new Conexao(this, socket); 
                 this.conexoes.add(c); 
             } catch (IOException e) {
-                System.out.println("Erro: " + e.getMessage());
+                System.out.println("Erro: " + e.getMessage() + "\n");
             } catch (Exception e) {
-                System.out.println("Erro: " + e.getMessage());
+                System.out.println("Erro: " + e.getMessage() + "\n");
             }
             
         }

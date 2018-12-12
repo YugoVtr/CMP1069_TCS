@@ -33,7 +33,7 @@ public class Conexao implements Observer {
                 this.socket.getOutputStream().write(msg.getBytes());
             }
         } catch (IOException e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage() + "\n");
         }
     }
 }
