@@ -34,11 +34,11 @@ public class Main {
     
     private static void observer(Tipo t) {
         if ( t == Tipo.SERVIDOR ) { 
+            //Objeto Para receber as conexões no servidor
             Servidor servidor = new Servidor(7777);
-            Thread threadServer = new Thread (servidor);
-            threadServer.start();
-            servidor.receber();
+            servidor.start();
         } else if ( t == Tipo.CLIENTE ) { 
+            // Janela do cliente
             ChatWindow.main(null);
         }
     }
