@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * @author Yugo
  */
-public class Servidor extends Observable implements Runnable {
+public class Servidor extends Observable implements Runnable{
     
     ServerSocket ss;
     CopyOnWriteArrayList<Conexao> conexoes;
