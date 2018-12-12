@@ -56,6 +56,9 @@ public class Conexao extends Observable implements Observer, Runnable {
         try {
             while(true) { 
                 if(!socket.isConnected()) { 
+                    servidor.deleteObserver(this);
+                    this.deleteObservers();
+                    socket.close();
                     return;
                 } 
                 Scanner entrada = new Scanner(socket.getInputStream());

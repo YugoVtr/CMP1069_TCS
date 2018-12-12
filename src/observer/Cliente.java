@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * @author Yugo
  */
-public class Cliente extends Observable implements Runnable{
+public class Cliente extends Observable implements Runnable {
     String msg; 
     Socket s = new Socket();
     
@@ -40,6 +40,8 @@ public class Cliente extends Observable implements Runnable{
         try {       
             while (true) {
                 if(!s.isConnected()) { 
+                    this.deleteObservers();
+                    s.close();
                     return; 
                 }
                 Scanner entrada = new Scanner(s.getInputStream());
