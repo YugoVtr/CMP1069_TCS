@@ -40,7 +40,7 @@ public class Cliente extends Observable implements Runnable{
         try {       
             while (true) {
                 Scanner entrada = new Scanner(s.getInputStream());
-                String msg = entrada.next();
+                String msg = entrada.nextLine(); 
                 if(!msg.isEmpty()) {
                     this.msg = msg; 
                     setChanged();
