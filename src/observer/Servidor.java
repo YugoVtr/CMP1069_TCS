@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Observable;
+import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -33,14 +34,16 @@ public class Servidor extends Observable implements Runnable{
                     Socket s = c.getSocket(); 
                     System.out.println("Monitorando Conexão => " + s.toString() + "\n");
                     if(s.isConnected()) { 
-                        BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
-                        String dados = bfr.readLine(); 
+                        Scanner entrada = new Scanner(s.getInputStream());
+                        String dados = entrada.next(); 
                         if (!dados.isEmpty()) {
                             System.out.println("Mensagem Recebida => " + s.getInetAddress().toString() + "\n");
                             this.msg = dados; 
                             setChanged();
                             notifyObservers();
                         }
+                    } else {
+                        System.out.println("Desconectado => " + s.getInetAddress().toString() + "\n");
                     }
                 }
             }
