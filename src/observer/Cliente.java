@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class Cliente extends Observable implements Runnable{
     String msg; 
-    Socket s = new Socket(); 
+    Socket s = new Socket();
     
     public Cliente(String ip, int port) throws Exception {
        try { 
