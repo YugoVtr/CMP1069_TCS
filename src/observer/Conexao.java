@@ -1,12 +1,12 @@
 
 package observer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 /**
  * @author Yugo
@@ -39,7 +39,8 @@ public class Conexao extends Observable implements Observer, Runnable {
             if(o instanceof Servidor && socket.isConnected()) {
                 Servidor server = (Servidor) o; 
                 String msg = server.getMsg(); 
-                this.socket.getOutputStream().write((msg).getBytes());
+                PrintStream saida = new PrintStream(socket.getOutputStream());
+                saida.println(msg);
             }
         } catch (IOException e) {
             System.out.println("Erro: " + e.getMessage() + "\n");
@@ -53,9 +54,9 @@ public class Conexao extends Observable implements Observer, Runnable {
     @Override
     public void run() {
         try {
-            BufferedReader bfr = new BufferedReader(new InputStreamReader (socket.getInputStream()));
             while(true) { 
-                String msg = bfr.readLine();
+                Scanner entrada = new Scanner(socket.getInputStream());
+                String msg = entrada.next();
                 if(!msg.isEmpty()) {
                     this.msg = msg; 
                     setChanged();

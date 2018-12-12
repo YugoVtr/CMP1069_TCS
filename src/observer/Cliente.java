@@ -1,8 +1,7 @@
 package observer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Scanner;
@@ -29,7 +28,8 @@ public class Cliente extends Observable implements Runnable{
     
     public void enviarMsg(String msg) throws IOException { 
         if (this.s.isConnected()) { 
-            this.s.getOutputStream().write((msg).getBytes());
+            PrintStream saida = new PrintStream(s.getOutputStream());
+            saida.println(msg);            
         } else {
             System.out.println("Disconectado...\n");
         }
@@ -38,9 +38,9 @@ public class Cliente extends Observable implements Runnable{
     @Override
     public void run() {
         try {       
-            BufferedReader bfr = new BufferedReader(new InputStreamReader (s.getInputStream()));
             while (true) {
-                String msg = bfr.readLine();
+                Scanner entrada = new Scanner(s.getInputStream());
+                String msg = entrada.next();
                 if(!msg.isEmpty()) {
                     this.msg = msg; 
                     setChanged();
