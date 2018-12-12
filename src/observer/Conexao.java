@@ -2,7 +2,6 @@
 package observer;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
@@ -36,8 +35,7 @@ public class Conexao implements Observer {
             if(o instanceof Servidor && socket.isConnected()) {
                 Servidor server = (Servidor) o; 
                 String msg = server.getMsg(); 
-                OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream(), "UTF-8");
-                osw.write(msg, 0, msg.length());
+                this.socket.getOutputStream().write(msg.getBytes());
             }
         } catch (IOException e) {
             System.out.println("Erro: " + e.getMessage() + "\n");

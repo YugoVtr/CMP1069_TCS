@@ -3,7 +3,6 @@ package observer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.Scanner;
@@ -30,8 +29,7 @@ public class Cliente extends Observable implements Runnable{
     
     public void enviarMsg(String msg) throws IOException { 
         if (this.s.isConnected()) { 
-            OutputStreamWriter osw = new OutputStreamWriter(s.getOutputStream(), "UTF-8");
-            osw.write(msg, 0, msg.length());
+            this.s.getOutputStream().write(msg.getBytes());
         } else {
             System.out.println("Disconectado...\n");
         }
