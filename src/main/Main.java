@@ -18,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            int arg = (args.length > 0) ? Integer.parseInt(args[0]) : 0 ;
+            int arg = (args.length > 0) ? Integer.parseInt(args[0]) : -1 ;
             int obs = (args.length == 2) ? Integer.parseInt(args[1]) : 0 ;
             switch (arg) { 
                 case 0: singleton();
