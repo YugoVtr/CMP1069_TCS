@@ -14,7 +14,7 @@ public class Contrato {
     int tipo;
     
     public int registrar(){
-        
+        return 0;
     }
     
 }

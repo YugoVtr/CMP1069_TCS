@@ -14,11 +14,11 @@ public class Casa extends Imovel{
     
      @Override
     String consultar() {
-       
+       return "";
     }
 
     @Override
     String listar() {
-        
+        return "";
     }
 }

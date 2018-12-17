@@ -12,12 +12,12 @@ public class Terreno extends Imovel{
 
     @Override
     String consultar() {
-       
+       return "";
     }
 
     @Override
     String listar() {
-        
+        return "";
     }
     
 }

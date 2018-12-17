@@ -13,7 +13,7 @@ public class Corretor {
     Endereco endereco;
     
     public String consultar(){
-        
+        return "";
     }
     
 }

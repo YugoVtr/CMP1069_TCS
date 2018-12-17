@@ -18,11 +18,11 @@ public class Aluguel {
     
     
     public int registrar(){
-        
+        return 0;
     }
     
     public int encerrar(){
-        
+        return 0;
     }
     
 }

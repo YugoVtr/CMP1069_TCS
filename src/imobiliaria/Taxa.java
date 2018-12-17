@@ -14,6 +14,6 @@ public class Taxa {
     
     //metodos
     public int registrarTaxa(){
-        
+        return 0;
     }
 }

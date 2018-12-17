@@ -11,10 +11,10 @@ public class PessoaFisica extends Pessoa{
     
     
     public int consultar(){
-        
+        return 0;
     }
     
     public String listar(){
-        
+        return "";
     }
 }

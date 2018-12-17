@@ -18,6 +18,6 @@ public class Compra {
     
     //Metodos
     public int registrarCompra(){
-        
+        return 0;
     }
 }

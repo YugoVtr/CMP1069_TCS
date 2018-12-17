@@ -18,11 +18,11 @@ public class Apartamento extends Imovel{
     
      @Override
     String consultar() {
-       
+       return "";
     }
 
     @Override
     String listar() {
-        
+        return "";
     }
 }
