@@ -11,14 +11,28 @@ import observer.Tipo;
 import observer.ChatWindow; 
 import observer.Servidor; 
 
+//Imobiliaria
+import imobiliaria.ImobiliariaMain; 
+
 public class Main {
 
     public static void main(String[] args) {
         try {
             int arg = (args.length > 0) ? Integer.parseInt(args[0]) : 0 ;
-            //singleton();
-            //iterator();
-            observer(Tipo.Integer(arg)); 
+            int obs = (args.length == 2) ? Integer.parseInt(args[1]) : 0 ;
+            switch (arg) { 
+                case 0: singleton();
+                        break; 
+                case 1: iterator();
+                        break; 
+                case 2: observer(Tipo.Integer(obs));
+                        break; 
+                case 3: imobiliaria(args);
+                        break; 
+                default: System.out.println("Programa invalido \n");
+                        break; 
+            }
+            
         } catch (Exception e) {
             System.out.print(e.getMessage() + "\n");
         }
@@ -41,5 +55,9 @@ public class Main {
             // Janela do cliente
             ChatWindow.main(null);
         }
+    }
+    
+    private static void imobiliaria(String[] args) {
+        ImobiliariaMain.main(args);
     }
 }
